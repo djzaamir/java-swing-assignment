@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package Main;
-
+import DBA.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author djzaamir
@@ -14,8 +17,10 @@ public class Alpha extends javax.swing.JFrame {
     /**
      * Creates new form Alpha
      */
-    public Alpha() {
+    private DBA dba;
+    public Alpha() throws SQLException {
         initComponents();
+        dba = new DBA();
     }
 
     /**
@@ -42,9 +47,10 @@ public class Alpha extends javax.swing.JFrame {
         setBackground(new java.awt.Color(51, 153, 255));
         setIconImages(null);
         setLocation(new java.awt.Point(500, 500));
-        setMaximumSize(new java.awt.Dimension(631, 406));
+        setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(631, 406));
         setResizable(false);
+        setType(java.awt.Window.Type.UTILITY);
 
         jLabel1.setBackground(new java.awt.Color(204, 255, 255));
         jLabel1.setFont(new java.awt.Font("Perpetua", 0, 40)); // NOI18N
@@ -156,13 +162,28 @@ public class Alpha extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            String username = jTextField1.getText();
+            char[] raw_pass = jPasswordField1.getPassword();
+            String password = "aamir";
+            int user_level  = 1;
+            
+            //Now querying db
+           User_Login_State state = dba.userValidate(username, password, user_level);
+            
+            System.out.println(state.isValid());
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Alpha.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws SQLException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -189,14 +210,24 @@ public class Alpha extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Alpha().setVisible(true);
+                try {
+                    new Alpha().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Alpha.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         
         //Calling methods from DBA
-        DBA.DBA.Sayhello();
+        DBA dba =  new DBA();
+       
     }
 
+    
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
