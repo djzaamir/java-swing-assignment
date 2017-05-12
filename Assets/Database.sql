@@ -44,3 +44,13 @@ create table Disease_History(
    prescription_timestamp timestamp not null,
    FOREIGN KEY (patient_id) REFERENCES Patient(patient_id)
  );
+
+create table User(
+ user_id int(11) not null auto_increment PRIMARY KEY ,
+ username varchar(30) not null ,
+ password varchar(30) not null,
+ user_level int(1) not null
+
+  #now there could be two kinds \of use\r levels
+  #1 Mean \ADMIN \AND \2 MEAN  GUESt  
+);
