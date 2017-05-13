@@ -5,6 +5,7 @@
  */
 package Admin_Panel;
 import Add_Patient.*;
+import javax.swing.JFrame;
 /**
  *
  * @author djzaamir
@@ -189,6 +190,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         //launch a new form to take input for user data
         Add_Patient new_patient_form = new Add_Patient();
         new_patient_form.setVisible(true);
+        new_patient_form.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
