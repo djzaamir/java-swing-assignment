@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Admin_Panel;
-
+import Add_Patient.*;
 /**
  *
  * @author djzaamir
@@ -187,6 +187,8 @@ public class Admin_Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         //launch a new form to take input for user data
+        Add_Patient new_patient_form = new Add_Patient();
+        new_patient_form.setVisible(true);
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

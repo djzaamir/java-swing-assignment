@@ -103,8 +103,22 @@ public class DBA {
     }
     
     //function to add a new patietn
-    public boolean addPatient(Patient new_patient){
+    public boolean addPatient(Patient new_patient) throws SQLException{
         
-    }
+        initDatabaseConnection();   
+        String space ="";//for auto_increment of id
+        String query = "INSERT INTO `Patient` values('"+space+"',?,?,?,?,?)";
+        PreparedStatement statement =  conn.prepareStatement(query);
+        
+        //Inserting data into prepared statement
+        statement.setString(1, new_patient.getPatient_name());
+        statement.setString(2, new_patient.getPatient_father_name());
+        statement.setBoolean(3, (new_patient.getSex() != 0));//here false means female and True Means Male
+        statement.setDate(4, new_patient.getDob());
+        statement.setInt(5, new_patient.getDoctor_id());
+        
+        //Executing statment here
+        return statement.execute(); //this also returns a boolean
+     }
     
 }
