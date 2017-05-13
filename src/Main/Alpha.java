@@ -23,9 +23,7 @@ public class Alpha extends javax.swing.JFrame {
     public Alpha() throws SQLException {
         initComponents();
         dba = new DBA();
-         this.setVisible(false);
-         Admin_Panel panel = new Admin_Panel(); //create a new Admin panel
-         panel.setVisible(true);
+       
     }
 
     /**
@@ -169,7 +167,9 @@ public class Alpha extends javax.swing.JFrame {
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-        
+          this.setVisible(false);
+          Admin_Panel panel =  new Admin_Panel();
+          panel.setVisible(true);
         //make sure that the fields are not empty
          if (!jTextField1.getText().equals("") && !new String(jPasswordField1.getPassword()).equals("")) {
             //Calling the evt handler for button
