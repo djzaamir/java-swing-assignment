@@ -57,13 +57,14 @@ public class DBA {
         return set;
     }
     
+    //function to validate user login , this function returns a tuple about the user credentials
     public User_Login_State userValidate(String username , String password , int type) throws SQLException{
         initDatabaseConnection();
         
         
         //Preparing query 
         ResultSet set = null;
-        String query = "SELECT user_id FROM `User` WHERE `username`=? AND `password`=? AND `user_level`=?";
+        String query = "SELECT * FROM `User` WHERE `username`=? AND `password`=? AND `user_level`=?";
         PreparedStatement p_statement;
         p_statement = conn.prepareStatement(query);
         
@@ -76,18 +77,28 @@ public class DBA {
         //Executing query
         set  = p_statement.executeQuery();
         
+      
+        //Vars to store data and make decisions
         User_Login_State state =  new User_Login_State();
-        //Now we have to check if the user data was correct 
-        if (set != null) {
+        boolean record_found = false;        
+
+        
+        //This is very imp , ResultSet should always be traversed inside a while loop
+        while(set.next()){
+            record_found = true;
             
-            //if its valid then get required data from set also set the validity to true
+            
             state.setIsValid(true);
             state.setUserId(set.getInt("user_id"));
             state.setUserLevel(set.getInt("user_level"));
-            
-        }else{
+        }
+        
+        //if the result set was empty then set the state as false
+        if (!record_found) {
             state.setIsValid(false);
         }
+        
+        
         return state; //this is basically a tuple containing data about the user , like valid or invalid etc
     }
 }
