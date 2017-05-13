@@ -101,4 +101,10 @@ public class DBA {
         
         return state; //this is basically a tuple containing data about the user , like valid or invalid etc
     }
+    
+    //function to add a new patietn
+    public boolean addPatient(Patient new_patient){
+        
+    }
+    
 }
