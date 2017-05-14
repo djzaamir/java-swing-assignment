@@ -5,6 +5,7 @@
  */
 package DBA;
 import java.sql.*;
+import java.util.LinkedList;
 /**
  *
  * @author djzaamir
@@ -120,5 +121,25 @@ public class DBA {
         //Executing statment here
         return statement.execute(); //this also returns a boolean
      }
+    
+    //function to get all doctor names
+    public LinkedList<String> getDoctors() throws SQLException{
+        
+        //init connection with the Db
+        initDatabaseConnection();
+        
+        LinkedList<String> doctors = new LinkedList<>();
+        
+        String Query =  "SELECT * FROM `Doctor`";
+        Statement statement = conn.createStatement();
+        ResultSet set  = statement.executeQuery(Query);
+        
+        if (set != null) {
+            while (set.next()){
+                doctors.add(set.getString("doctor_name"));
+            }
+        }
+        return doctors;
+    }
     
 }
