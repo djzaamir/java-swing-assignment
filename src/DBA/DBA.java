@@ -6,14 +6,14 @@
 package DBA;
 import java.sql.*;
 import java.util.LinkedList;
+import Support.*;
 /**
  *
  * @author djzaamir
  */
 public class DBA {
-    
+
     //vars section
-   
     private Connection conn = null;
     private Statement statment = null;
     private final String dbms_url = "jdbc:mysql://localhost:3306/clinic";
@@ -104,22 +104,25 @@ public class DBA {
     }
     
     //function to add a new patietn
-    public boolean addPatient(Patient new_patient) throws SQLException{
+    public int addPatient(Patient new_patient) throws SQLException{
         
         initDatabaseConnection();   
-        String space ="";//for auto_increment of id
-        String query = "INSERT INTO `Patient` values('"+space+"',?,?,?,?,?)";
+        
+        String query = "INSERT INTO `Patient`  (`patient_name`,`patient_father_name` , `sex` , `dob` , `doctor_name`)   values(?,?,?,?,?)";
         PreparedStatement statement =  conn.prepareStatement(query);
         
         //Inserting data into prepared statement
+        
         statement.setString(1, new_patient.getPatient_name());
         statement.setString(2, new_patient.getPatient_father_name());
-        statement.setBoolean(3, (new_patient.getSex() != 0));//here false means female and True Means Male
+        statement.setBoolean(3,new_patient.getSex());//here false means female and True Means Male
+        //java.sql.Date sqlDate = new java.sql.Date(new_patient.getDob().getTime());
         statement.setDate(4, new_patient.getDob());
-        statement.setInt(5, new_patient.getDoctor_id());
+        statement.setString(5, new_patient.getDoctor_name());
         
         //Executing statment here
-        return statement.execute(); //this also returns a boolean
+        return statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+        
      }
     
     //function to get all doctor names
@@ -140,6 +143,42 @@ public class DBA {
             }
         }
         return doctors;
+    }
+    
+    
+    //function to insert disease and prescription
+    public boolean addDiseaseAndPrescription(int new_p_id ,Patient p) throws SQLException {
+        
+        //init connection with db
+        initDatabaseConnection();
+        
+        String d_query = "INSERT INTO `Disease_History` (`patient_id` , `disease_history` , `history_timestamp`) VALUES(?,?,?)";
+        
+        //Preparing statment
+        PreparedStatement statement =  conn.prepareStatement(d_query);
+        
+        //Inserting data in statement
+        statement.setInt(1,new_p_id);
+        statement.setString(2,p.getDisease_history());
+        statement.setDate(3, new java.sql.Date(Support.getTimeStamp()));
+        
+        statement.executeUpdate();
+        statement.close();
+        
+        //Now doing the same for prescription /inserting data for prescription
+        String p_query = "INSERT INTO `Prescription_History` (`patient_id` , `prescription` , `prescription_timestamp`) VALUES(?,?,?)";
+        
+        //Preparing statment
+        PreparedStatement statement_p =  conn.prepareStatement(d_query);
+        
+        
+        //Inserting data in statement
+        statement_p.setInt(1,new_p_id);
+        statement_p.setString(2,p.getPrescription());
+        statement_p.setDate(3, new java.sql.Date(Support.getTimeStamp()));
+        
+        
+       return statement_p.execute() == false;
     }
     
 }

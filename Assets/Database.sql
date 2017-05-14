@@ -22,8 +22,7 @@ create table Disease (
  patient_father_name varchar(255) NOT NULL , 
  sex boolean NOT NULL , 
  dob date, 
- doctor_id int(11) NOT NULL ,
- FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_Id) 
+ doctor_name varchar(255) not null
  );
 
 
@@ -31,9 +30,8 @@ create table Disease (
 create table Disease_History(
    history_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
    patient_id int(11) NOT NULL ,
-   disease_id int(11) NOT NULL ,
+   disease_history varchar(500) NOT NULL ,
    FOREIGN KEY (patient_id) REFERENCES Patient(patient_id),
-   FOREIGN KEY (disease_id) REFERENCES Disease(disease_id),
    history_timestamp timestamp NOT NULL
  );
  

@@ -16,22 +16,26 @@ public class Patient {
    private int patient_id;
    private String patient_name;
    private String patient_father_name;
-   private int sex; //0 for female 1 for male :P
-   private Date dob;
-   private int doctor_id; //This is related to Doctor table
+   private boolean sex; //0 for female 1 for male :P
+   private java.sql.Date dob;
+   private String doctor_name; //This is related to Doctor table
    private String disease_history;
    private String prescription;
 
    //Constructer function
-    public Patient(int patient_id, String patient_name, String patient_father_name, int sex, Date dob, int doctor_id, String disease_history, String prescription) {
+    public Patient(int patient_id, String patient_name, String patient_father_name, boolean sex, java.sql.Date dob, String doctor_name, String disease_history, String prescription) {
         this.patient_id = patient_id;
         this.patient_name = patient_name;
         this.patient_father_name = patient_father_name;
         this.sex = sex;
         this.dob = dob;
-        this.doctor_id = doctor_id;
+        this.doctor_name = doctor_name;
         this.disease_history = disease_history;
         this.prescription = prescription;
+    }
+
+    public Patient() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
    
@@ -63,28 +67,28 @@ public class Patient {
         this.patient_father_name = patient_father_name;
     }
 
-    public int getSex() {
+    public boolean getSex() {
         return sex;
     }
 
-    public void setSex(int sex) {
+    public void setSex(boolean sex) {
         this.sex = sex;
     }
 
-    public Date getDob() {
+    public java.sql.Date getDob() {
         return dob;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(java.sql.Date dob) {
         this.dob = dob;
     }
 
-    public int getDoctor_id() {
-        return doctor_id;
+    public String getDoctor_name() {
+        return this.doctor_name;
     }
 
-    public void setDoctor_id(int doctor_id) {
-        this.doctor_id = doctor_id;
+    public void setDoctor_name(String doctor_name) {
+        this.doctor_name = doctor_name;
     }
 
     public String getDisease_history() {

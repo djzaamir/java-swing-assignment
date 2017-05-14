@@ -76,6 +76,7 @@ public class Add_Patient extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Add new Patient");
@@ -150,6 +151,9 @@ public class Add_Patient extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 51, 255));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -178,13 +182,15 @@ public class Add_Patient extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(57, 57, 57)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jRadioButton1)
                                 .addGap(28, 28, 28)
-                                .addComponent(jRadioButton2))))
+                                .addComponent(jRadioButton2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(57, 57, 57)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(60, 60, 60)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(90, 90, 90)
@@ -231,9 +237,11 @@ public class Add_Patient extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -246,7 +254,7 @@ public class Add_Patient extends javax.swing.JFrame {
         //Capture data from the form
         String name  = jTextField1.getText();
         String fname = jTextField2.getText();
-        boolean sex;
+        boolean sex = true; //default is male , yeah more males in the world
         //Radio buttons array , because we have to loop them all and check which one is selected
          ButtonModel model =  buttonGroup1.getSelection();
          if (model  == jRadioButton1) {
@@ -254,7 +262,32 @@ public class Add_Patient extends javax.swing.JFrame {
         }else if(model == jRadioButton2){
             sex = false;
         }
-        Date date =  (Date) jDateChooser1.getDate();
+        java.sql.Date dob =  new java.sql.Date(jDateChooser1.getDate().getTime());
+        String doc_name = (String)jComboBox1.getSelectedItem();
+        String disease_history = jTextArea1.getText();
+        String prescription    = jTextArea2.getText();
+        //capturing data ends here
+        
+        //Packing data into patient obj
+        Patient p = new Patient(1, name , fname ,sex , dob , doc_name ,  disease_history ,prescription);
+        
+        
+        try {
+            //Inserting data to  patient , disease table
+            int new_p_id  = new DBA().addPatient(p);
+            //insert data to disease and prescription table
+            if(new DBA().addDiseaseAndPrescription(new_p_id , p)){
+                
+                //Incase of succesful insertion to db close form and head back to parent form
+                this.setVisible(false);
+                
+            }else{
+                //Incase something fails , then Report error to user
+                jLabel9.setText("Error in Saving data!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Add_Patient.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -321,6 +354,7 @@ public class Add_Patient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
