@@ -275,8 +275,10 @@ public class Add_Patient extends javax.swing.JFrame {
         try {
             //Inserting data to  patient , disease table
             int new_p_id  = new DBA().addPatient(p);
+           
             //insert data to disease and prescription table
-            if(new DBA().addDiseaseAndPrescription(new_p_id , p)){
+            
+            if(new DBA().addDiseaseHistory(new_p_id , p) && new DBA().addPrescriptionHistory(new_p_id, p)){
                 
                 //Incase of succesful insertion to db close form and head back to parent form
                 this.setVisible(false);

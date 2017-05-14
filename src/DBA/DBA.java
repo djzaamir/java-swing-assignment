@@ -109,7 +109,7 @@ public class DBA {
         initDatabaseConnection();   
         
         String query = "INSERT INTO `Patient`  (`patient_name`,`patient_father_name` , `sex` , `dob` , `doctor_name`)   values(?,?,?,?,?)";
-        PreparedStatement statement =  conn.prepareStatement(query);
+        PreparedStatement statement =  conn.prepareStatement(query , Statement.RETURN_GENERATED_KEYS);
         
         //Inserting data into prepared statement
         
@@ -121,8 +121,13 @@ public class DBA {
         statement.setString(5, new_patient.getDoctor_name());
         
         //Executing statment here
-        return statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-        
+         statement.executeUpdate();
+          ResultSet set =  statement.getGeneratedKeys();
+          int id = 0;
+          while(set.next()){
+             id  =  set.getInt(1);
+          }
+          return id;
      }
     
     //function to get all doctor names
@@ -146,10 +151,11 @@ public class DBA {
     }
     
     
-    //function to insert disease and prescription
-    public boolean addDiseaseAndPrescription(int new_p_id ,Patient p) throws SQLException {
+    //function to insert disease history
+    public boolean addDiseaseHistory(int new_p_id ,Patient p) throws SQLException {
         
         //init connection with db
+       
         initDatabaseConnection();
         
         String d_query = "INSERT INTO `Disease_History` (`patient_id` , `disease_history` , `history_timestamp`) VALUES(?,?,?)";
@@ -162,23 +168,27 @@ public class DBA {
         statement.setString(2,p.getDisease_history());
         statement.setDate(3, new java.sql.Date(Support.getTimeStamp()));
         
-        statement.executeUpdate();
-        statement.close();
+        return statement.execute() == false ? true:false;
+     }
+    
+     //fuction to insert prescription histry
+    public boolean addPrescriptionHistory(int new_p_id , Patient p) throws SQLException{
         
         //Now doing the same for prescription /inserting data for prescription
+      
+        initDatabaseConnection();
+        
         String p_query = "INSERT INTO `Prescription_History` (`patient_id` , `prescription` , `prescription_timestamp`) VALUES(?,?,?)";
         
         //Preparing statment
-        PreparedStatement statement_p =  conn.prepareStatement(d_query);
+        PreparedStatement statement_p =  conn.prepareStatement(p_query);
         
         
         //Inserting data in statement
         statement_p.setInt(1,new_p_id);
         statement_p.setString(2,p.getPrescription());
         statement_p.setDate(3, new java.sql.Date(Support.getTimeStamp()));
-        
-        
-       return statement_p.execute() == false;
+        return statement_p.execute() == false ? true:false;
     }
     
 }
