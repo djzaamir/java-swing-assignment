@@ -246,4 +246,32 @@ public class DBA {
         return doctors;
     }
     
+    //function to get all patients from db
+    public LinkedList<Patient> getPatients() throws SQLException{
+        
+        initDatabaseConnection();
+        LinkedList<Patient> patients = new LinkedList<Patient>();
+        
+        String Query  ="SELECT * FROM `Patient";
+        
+        Statement statement = conn.createStatement();
+        
+        ResultSet set  = statement.executeQuery(Query);
+        
+        while(set.next()){
+            Patient p =  new Patient();
+            p.setPatient_id(set.getInt("patient_id"));
+            p.setPatient_name(set.getString("patient_name"));
+            p.setPatient_father_name(set.getString("patient_father_name"));
+            p.setSex(set.getBoolean("sex"));
+            p.setDob(set.getDate("dob"));
+            p.setDoctor_name(set.getString("doctor_name"));
+            
+            //Append this doctor to list
+            patients.add(p);
+            
+        }
+        return patients;
+    }
+    
 }
