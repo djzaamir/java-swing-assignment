@@ -20,34 +20,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Admin_Panel extends javax.swing.JFrame {
 
+    
+    //vars
+    private enum curr_display_table {PATIENT_TABLE , DOCTOR_TABLE};
+    
+    
     /**
      * Creates new form Admin_Panel
      */
     public Admin_Panel() throws SQLException {
         initComponents();
+        curr_display_table d_table = curr_display_table.PATIENT_TABLE;
         
-        //by default load patients record into jTable
-        DefaultTableModel model =  new DefaultTableModel();  //creating a model for JTable class
-        Object[] columns = {"Id","Name", "Father Name" , "Gender" , "Date of birth" , "Doctor Name"}; //setting up identifiers for jtable class
-        model.setColumnIdentifiers(columns); //Now binding Identifiers with model
-        jTable1.setModel(model);//Now Binding Model with jTable
-        
-         LinkedList<Patient> patients = new DBA().getPatients();
-         Object[] row = new Object[6];
-         for(Patient p : patients){
-            
-             //Now adding data from each patient to the row
-             row[0] =  p.getPatient_id();
-             row[1] =  p.getPatient_name();
-             row[2] =  p.getPatient_father_name();
-             row[3] =  (p.getSex() == true ? "Male":"Female");
-             row[4] =  p.getDob();
-             row[5] = p.getDoctor_name();
-             
-             //Now add this row to the model
-             model.addRow(row);
-             
-         }
+        setUpDisplayTablePatientTable();
     }
 
     /**
@@ -113,7 +98,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(859, 618));
         setMinimumSize(new java.awt.Dimension(859, 618));
 
-        jTable1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -268,19 +253,22 @@ public class Admin_Panel extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(54, Short.MAX_VALUE)
+                .addContainerGap(27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 930, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(101, 101, 101))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(101, 101, 101))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(49, 49, 49))))
+                                .addGap(244, 244, 244)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(49, 49, 49))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -402,4 +390,29 @@ public class Admin_Panel extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    private void setUpDisplayTablePatientTable() throws SQLException {
+        //by default load patients record into jTable
+        DefaultTableModel model =  new DefaultTableModel();  //creating a model for JTable class
+        Object[] columns = {"Id","Name", "Father Name" , "Gender" , "Date of birth" , "Doctor Name"}; //setting up identifiers for jtable class
+        model.setColumnIdentifiers(columns); //Now binding Identifiers with model
+        jTable1.setModel(model);//Now Binding Model with jTable
+        
+         LinkedList<Patient> patients = new DBA().getPatients();
+         Object[] row = new Object[6];
+         for(Patient p : patients){
+            
+             //Now adding data from each patient to the row
+             row[0] =  p.getPatient_id();
+             row[1] =  p.getPatient_name();
+             row[2] =  p.getPatient_father_name();
+             row[3] =  (p.getSex() == true ? "Male":"Female");
+             row[4] =  p.getDob();
+             row[5] = p.getDoctor_name();
+             
+             //Now add this row to the model
+             model.addRow(row);
+             
+         }
+    }
 }
