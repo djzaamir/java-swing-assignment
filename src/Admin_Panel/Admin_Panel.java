@@ -6,6 +6,10 @@
 package Admin_Panel;
 import Add_Patient.*;
 import Add_Doctor.*;
+import Add_Disease.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 /**
  *
@@ -101,6 +105,11 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("Add New Disease");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setText("Delete Patient");
@@ -185,7 +194,12 @@ public class Admin_Panel extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        Add_Doctor new_doctor_form = new Add_Doctor();
+        Add_Doctor new_doctor_form = null;
+        try {
+            new_doctor_form = new Add_Doctor();
+        } catch (SQLException ex) {
+            Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         new_doctor_form.setVisible(true);
         new_doctor_form.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
        
@@ -200,6 +214,14 @@ public class Admin_Panel extends javax.swing.JFrame {
         new_patient_form.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        Add_Disease new_disease =  new Add_Disease();
+        new_disease.setVisible(true);
+        new_disease.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

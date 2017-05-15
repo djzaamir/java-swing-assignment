@@ -139,11 +139,15 @@ public class DBA {
                         + "VALUES(?,?)";
         PreparedStatement statement =  conn.prepareStatement(query);
         
+        System.out.println(d.getDoctor_name());
+        System.out.println(d.getDoctor_specialization());
+        
+        
         //inserting values into prepare statemtn
         statement.setString(1, d.getDoctor_specialization());
         statement.setString(2, d.getDoctor_name());
         
-        
+       
         return statement.execute() == false;
     }
     
@@ -166,6 +170,22 @@ public class DBA {
         
         return statement.execute() == false ? true:false;
      }
+    
+    //function to add a new Disease 
+    public boolean addDisease(Disease d) throws SQLException{
+        
+        initDatabaseConnection();
+        
+        String query  = "INSERT INTO `disease` (`disease_name`,`disease_description`) VALUES(?,?)";
+        
+        PreparedStatement statement  =   conn.prepareStatement(query);
+        
+        //inserting data into the statement
+        statement.setString(1, d.getDisease_name());
+        statement.setString(2, d.getDisease_description());
+        
+     return   statement.executeUpdate() == 1;
+    }
     
      //fuction to insert prescription histry
     public boolean addPrescriptionHistory(int new_p_id , Patient p) throws SQLException{

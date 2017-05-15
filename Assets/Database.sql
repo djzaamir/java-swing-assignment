@@ -8,7 +8,7 @@ create table Doctor (
 );
 
 
-create table Disease (
+create table disease (
   disease_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
   disease_name varchar(255) NOT NULL ,
   disease_description varchar(1000) NOT NULL
