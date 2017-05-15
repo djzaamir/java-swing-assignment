@@ -130,6 +130,24 @@ public class DBA {
           return id;
      }
     
+    
+    //function to add a doctor
+    public boolean addDoctor(Doctor d) throws SQLException{
+     
+        initDatabaseConnection();
+        
+        String query = "INSERT INTO `Doctor` (`doctor_specialization_id`,`doctor_name`)"
+                        + "VALUES(?,?)";
+        PreparedStatement statement =  conn.prepareStatement(query);
+        
+        //inserting values into prepare statemtn
+        statement.setString(1, d.getDoctor_specialization());
+        statement.setString(2, d.getDoctor_name());
+        
+        
+        return statement.execute() == false;
+    }
+    
     //function to get all doctor names
     public LinkedList<String> getDoctors() throws SQLException{
         
@@ -189,6 +207,20 @@ public class DBA {
         statement_p.setString(2,p.getPrescription());
         statement_p.setDate(3, new java.sql.Date(Support.getTimeStamp()));
         return statement_p.execute() == false ? true:false;
+    }
+    
+    //function to get All Diseases
+    public LinkedList<String> getDiseases() throws SQLException{
+        //Establish connection with Db
+        initDatabaseConnection();
+        
+        LinkedList<String> diseases =  new LinkedList<>();
+        
+        String Query = "SELECT * FROM `Diseases`";
+        Statement statement =  conn.createStatement();
+        
+        
+        return diseases;
     }
     
 }

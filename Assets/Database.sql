@@ -3,7 +3,7 @@ create database clinic;
 
 create table Doctor (
    doctor_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
-   doctor_specialization_id int(11) NOT NULL ,
+   doctor_specialization varchar(255) NOT NULL ,
    doctor_name varchar(255)  NOT NULL
 );
 

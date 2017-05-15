@@ -51,8 +51,7 @@ public class Alpha extends javax.swing.JFrame {
         setBackground(new java.awt.Color(51, 153, 255));
         setForeground(java.awt.Color.lightGray);
         setIconImages(null);
-        setLocation(new java.awt.Point(500, 500));
-        setLocationByPlatform(true);
+        setLocation(new java.awt.Point(500, 300));
         setMinimumSize(new java.awt.Dimension(631, 406));
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);

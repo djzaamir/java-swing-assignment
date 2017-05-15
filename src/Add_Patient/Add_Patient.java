@@ -82,7 +82,7 @@ public class Add_Patient extends javax.swing.JFrame {
         setTitle("Add new Patient");
         setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         setIconImages(null);
-        setLocation(new java.awt.Point(450, 150));
+        setLocation(new java.awt.Point(430, 150));
         setMaximumSize(new java.awt.Dimension(995, 765));
         setMinimumSize(new java.awt.Dimension(995, 765));
         setType(java.awt.Window.Type.UTILITY);
@@ -268,7 +268,16 @@ public class Add_Patient extends javax.swing.JFrame {
         String prescription    = jTextArea2.getText();
         //capturing data ends here
         
-        //Packing data into patient obj
+        
+        
+        //Performing a little validatin
+        boolean validation_good = false;
+        if(!name.equals("") && !fname.equals("") && dob != null && !doc_name.equals("") && !disease_history.equals("") && !prescription.equals("")){
+            validation_good = true;        
+        }//Little validation ends here
+        
+        if(validation_good){
+            //Packing data into patient obj
         Patient p = new Patient(1, name , fname ,sex , dob , doc_name ,  disease_history ,prescription);
         
         
@@ -289,6 +298,9 @@ public class Add_Patient extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             Logger.getLogger(Add_Patient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }else{
+            jLabel9.setText("All Fields Are Required!");
         }
         
         

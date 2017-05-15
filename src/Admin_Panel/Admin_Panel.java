@@ -5,6 +5,7 @@
  */
 package Admin_Panel;
 import Add_Patient.*;
+import Add_Doctor.*;
 import javax.swing.JFrame;
 /**
  *
@@ -68,8 +69,10 @@ public class Admin_Panel extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin Panel");
+        setBackground(new java.awt.Color(255, 255, 255));
         setFocusable(false);
         setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
+        setLocation(new java.awt.Point(400, 300));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel1.setText("Welcome ");
@@ -165,7 +168,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(561, Short.MAX_VALUE)
+                .addContainerGap(583, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(149, 149, 149))
         );
@@ -182,6 +185,10 @@ public class Admin_Panel extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
+        Add_Doctor new_doctor_form = new Add_Doctor();
+        new_doctor_form.setVisible(true);
+        new_doctor_form.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+       
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
