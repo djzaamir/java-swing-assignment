@@ -130,13 +130,12 @@ public class DBA {
           return id;
      }
     
-    
     //function to add a doctor
     public boolean addDoctor(Doctor d) throws SQLException{
      
         initDatabaseConnection();
         
-        String query = "INSERT INTO `Doctor` (`doctor_specialization_id`,`doctor_name`)"
+        String query = "INSERT INTO `Doctor` (`doctor_specialization`,`doctor_name`)"
                         + "VALUES(?,?)";
         PreparedStatement statement =  conn.prepareStatement(query);
         
@@ -147,27 +146,6 @@ public class DBA {
         
         return statement.execute() == false;
     }
-    
-    //function to get all doctor names
-    public LinkedList<String> getDoctors() throws SQLException{
-        
-        //init connection with the Db
-        initDatabaseConnection();
-        
-        LinkedList<String> doctors = new LinkedList<>();
-        
-        String Query =  "SELECT * FROM `Doctor`";
-        Statement statement = conn.createStatement();
-        ResultSet set  = statement.executeQuery(Query);
-        
-        if (set != null) {
-            while (set.next()){
-                doctors.add(set.getString("doctor_name"));
-            }
-        }
-        return doctors;
-    }
-    
     
     //function to insert disease history
     public boolean addDiseaseHistory(int new_p_id ,Patient p) throws SQLException {
@@ -216,11 +194,36 @@ public class DBA {
         
         LinkedList<String> diseases =  new LinkedList<>();
         
-        String Query = "SELECT * FROM `Diseases`";
+        String Query = "SELECT * FROM `Disease`";
         Statement statement =  conn.createStatement();
         
+        ResultSet set = statement.executeQuery(Query);
+        
+        while(set.next()){
+            diseases.add(set.getString("disease_name"));
+        }
         
         return diseases;
+    }
+    
+     //function to get all doctor names
+    public LinkedList<String> getDoctors() throws SQLException{
+        
+        //init connection with the Db
+        initDatabaseConnection();
+        
+        LinkedList<String> doctors = new LinkedList<>();
+        
+        String Query =  "SELECT * FROM `Doctor`";
+        Statement statement = conn.createStatement();
+        ResultSet set  = statement.executeQuery(Query);
+        
+        if (set != null) {
+            while (set.next()){
+                doctors.add(set.getString("doctor_name"));
+            }
+        }
+        return doctors;
     }
     
 }

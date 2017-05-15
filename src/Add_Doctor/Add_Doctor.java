@@ -21,7 +21,7 @@ public class Add_Doctor extends javax.swing.JFrame {
      * Creates new form Add_Doctor
      */
     public Add_Doctor() throws SQLException {
-        System.out.println("Doctor panel constructer called");
+       
         initComponents();
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         
@@ -29,8 +29,7 @@ public class Add_Doctor extends javax.swing.JFrame {
         LinkedList<String> diseases = new DBA().getDiseases();
         
         for(String disease: diseases){
-            System.out.println("Disaease :"+disease);
-            jComboBox1.addItem(disease);
+             jComboBox1.addItem(disease);
         }
     }
 
@@ -198,8 +197,8 @@ public class Add_Doctor extends javax.swing.JFrame {
         
         //Capture data from form
         String doc_name = jTextField1.getText();
-        String specialization  = jComboBox1.getName();
-        
+        String specialization  = (String)jComboBox1.getSelectedItem();
+       
         //A little validation
         if (!doc_name.equals("") && !specialization.equals("")) {
             
@@ -211,7 +210,7 @@ public class Add_Doctor extends javax.swing.JFrame {
             try {
                 //Insert data into db
                 if(new DBA().addDoctor(new_doc)){
-                    
+                    this.setVisible(false);
                 }else{
                     jLabel4.setText("Error in Saving!");
                 }
@@ -256,7 +255,11 @@ public class Add_Doctor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Add_Doctor().setVisible(true);
+                try {
+                    new Add_Doctor().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Add_Doctor.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
