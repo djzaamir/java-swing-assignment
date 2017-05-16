@@ -231,9 +231,19 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenu4.setText("Update Records");
 
         jMenuItem7.setText("Update Doctor");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem7);
 
         jMenuItem6.setText("Update Patient");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem6);
 
         jMenu1.add(jMenu4);
@@ -410,6 +420,24 @@ public class Admin_Panel extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        try {
+            // TODO add your handling code here:
+            setUpDisplayTableDoctorTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        try {
+            // TODO add your handling code here:
+            setUpDisplayTablePatientTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -490,7 +518,16 @@ public class Admin_Panel extends javax.swing.JFrame {
     
     //function to display records from patients to JTable
     private void setUpDisplayTablePatientTable() throws SQLException {
-        //by default load patients record into jTable
+        
+        //Enable button for deletion , because this is againt our bussines rule
+        jButton4.setEnabled(true);
+        
+        d_table = curr_display_table.PATIENT_TABLE; //Change the functionality of refresh button to update for doctors
+        
+        jLabel1.setText("Patient Records"); //change the label to display doctor records
+
+
+         //by default load patients record into jTable
         DefaultTableModel model =  new DefaultTableModel();  //creating a model for JTable class
         Object[] columns = {"Id","Name", "Father Name" , "Gender" , "Date of birth" , "Doctor Name"}; //setting up identifiers for jtable class
         model.setColumnIdentifiers(columns); //Now binding Identifiers with model
@@ -516,12 +553,20 @@ public class Admin_Panel extends javax.swing.JFrame {
     
     //function to display Records from doctor to JTable
     private void setUpDisplayTableDoctorTable()throws SQLException{
+        
+        //disable button for deletion , because this is againt our bussines rule
+        jButton4.setEnabled(false);
+        
+        d_table = curr_display_table.DOCTOR_TABLE; //Change the functionality of refresh button to update for doctors
+        
+        jLabel1.setText("Doctor Records"); //change the label to display doctor records
+        
         DefaultTableModel model = new DefaultTableModel();
         Object[] columns = {"Id" , "Specialization" , "Name"};
         model.setColumnIdentifiers(columns);
         jTable1.setModel(model);
         
-        LinkedList<Doctor> doctors =  new LinkedList<>();
+        LinkedList<Doctor> doctors =  new DBA().getDoctors();
         Object[] row = new Object[3];
         
         for(Doctor doctor : doctors){

@@ -227,12 +227,12 @@ public class DBA {
     }
     
      //function to get all doctor names
-    public LinkedList<String> getDoctors() throws SQLException{
+    public LinkedList<Doctor> getDoctors() throws SQLException{
         
         //init connection with the Db
         initDatabaseConnection();
         
-        LinkedList<String> doctors = new LinkedList<>();
+        LinkedList<Doctor> doctors = new LinkedList<>();
         
         String Query =  "SELECT * FROM `Doctor`";
         Statement statement = conn.createStatement();
@@ -240,7 +240,8 @@ public class DBA {
         
         if (set != null) {
             while (set.next()){
-                doctors.add(set.getString("doctor_name"));
+                Doctor new_doctor = new Doctor(set.getInt("doctor_id") , set.getString("doctor_specialization") , set.getString("doctor_name"));
+                doctors.add(new_doctor);
             }
         }
         return doctors;
