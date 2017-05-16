@@ -470,7 +470,12 @@ public class Admin_Panel extends javax.swing.JFrame {
                     Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 update_docotor.setSent_pk_from_Admin_panel(pk);
-                update_docotor.loadDataToForm();
+                try {
+                    update_docotor.loadDataToForm();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                update_docotor.setVisible(true);
                 
             }
             

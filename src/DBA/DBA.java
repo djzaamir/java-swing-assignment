@@ -194,6 +194,21 @@ public class DBA {
     }
     
     
+    //function to update doctor record
+    public boolean updateDoctor(Doctor d ,  int pk) throws SQLException{
+        initDatabaseConnection();
+        
+        String query = "UPDATE `Doctor` SET `doctor_name`=? , `doctor_specialization`=? WHERE `doctor_id`=?";
+        
+        PreparedStatement statement = conn.prepareStatement(query);
+        
+        //insert data into statement
+        statement.setString(1, d.getDoctor_name());
+        statement.setString(2, d.getDoctor_specialization());
+        statement.setInt(3, pk);
+        return statement.execute() == false;
+    }
+    
     //function to add a doctor
     public boolean addDoctor(Doctor d) throws SQLException{
      
@@ -309,6 +324,27 @@ public class DBA {
             }
         }
         return doctors;
+    }
+    
+    //function to get a single doctor from database
+    public Doctor getDoctor(int pk) throws SQLException{
+        initDatabaseConnection();
+        Doctor d =  new Doctor();
+        String query = "SELECT * FROM `Doctor` WHERE `doctor_id`=?";
+        
+        PreparedStatement statement  =  conn.prepareStatement(query);
+        
+        //insert into query
+        statement.setInt(1, pk);
+        
+        ResultSet set = statement.executeQuery();
+        
+        while(set.next()){
+            d.setDoctor(set.getInt(pk));
+            d.setDoctor_name(set.getString("doctor_name"));
+            d.setDoctor_specialization_id(set.getString("doctor_specialization"));
+        }
+        return d;
     }
     
     //function to get all patients from db

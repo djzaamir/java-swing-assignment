@@ -30,7 +30,7 @@ public class Add_Doctor extends javax.swing.JFrame {
      * Creates new form Add_Doctor
      */
     public Add_Doctor() throws SQLException {
-       
+       this.sent_pk_from_Admin_panel = -1;
         initComponents();
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         
@@ -216,7 +216,9 @@ public class Add_Doctor extends javax.swing.JFrame {
             new_doc.setDoctor_name(doc_name);
             new_doc.setDoctor_specialization_id(specialization);
             
-            try {
+            //If its a brand new entry
+            if (this.sent_pk_from_Admin_panel == -1) {
+                try {
                 //Insert data into db
                 if(new DBA().addDoctor(new_doc)){
                     this.setVisible(false);
@@ -226,6 +228,25 @@ public class Add_Doctor extends javax.swing.JFrame {
                         
                         } catch (SQLException ex) {
                 Logger.getLogger(Add_Doctor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+            //if doctor s being updated
+            else{
+                DBA dba = null;
+                try {
+                    dba =  new DBA();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Add_Doctor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    if (dba.updateDoctor(new_doc,this.sent_pk_from_Admin_panel)) {
+                        
+                        this.setVisible(false);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Add_Doctor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
             
         }else{
@@ -286,7 +307,13 @@ public class Add_Doctor extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
-    public void loadDataToForm() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void loadDataToForm() throws SQLException {
+        
+        //get data from database 
+        Doctor d =  new DBA().getDoctor(this.sent_pk_from_Admin_panel);
+        
+        //Now populate fields with this data
+        jTextField1.setText(d.getDoctor_name());
+        
     }
 }
