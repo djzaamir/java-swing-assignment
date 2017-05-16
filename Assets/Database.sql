@@ -34,13 +34,31 @@ create table Disease_History(
    FOREIGN KEY (patient_id) REFERENCES Patient(patient_id),
    history_timestamp timestamp NOT NULL
  );
- 
+/*Updated query for create table Disease_History  USE THIS IN FUTURE  FOR EXAMPLE ON PC*/
+create table Disease_History(
+   history_id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+   patient_id int(11) NOT NULL ,
+   disease_history varchar(500) NOT NULL ,
+   FOREIGN KEY (patient_id) REFERENCES Patient(patient_id) ON DELETE CASCADE,
+   history_timestamp timestamp NOT NULL
+ );
+
+
+
  create table Prescription_History(
    prescription_id int(11) not null primary key auto_increment ,
    patient_id int(11) not null ,
    prescription varchar(500) not null ,
    prescription_timestamp timestamp not null,
    FOREIGN KEY (patient_id) REFERENCES Patient(patient_id)
+ );
+/*Updated query for create table Disease_History  USE THIS IN FUTURE  FOR EXAMPLE ON PC*/
+create table Prescription_History(
+   prescription_id int(11) not null primary key auto_increment ,
+   patient_id int(11) not null ,
+   prescription varchar(500) not null ,
+   prescription_timestamp timestamp not null,
+   FOREIGN KEY (patient_id) REFERENCES Patient(patient_id) ON DELETE CASCADE
  );
 
 create table User(

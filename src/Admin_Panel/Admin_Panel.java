@@ -21,6 +21,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Admin_Panel extends javax.swing.JFrame {
 
+    private void renderSelectedTableToJTable() throws SQLException {
+      if (d_table == curr_display_table.PATIENT_TABLE) {
+            
+            try {
+                setUpDisplayTablePatientTable();
+            } catch (SQLException ex) {
+                Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }else if(d_table == curr_display_table.DOCTOR_TABLE){
+         
+           setUpDisplayTableDoctorTable();
+            
+        }    
+    }
+
     
     //vars
     private enum curr_display_table {PATIENT_TABLE , DOCTOR_TABLE};
@@ -344,18 +360,11 @@ public class Admin_Panel extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        if (d_table == curr_display_table.PATIENT_TABLE) {
-            
-            try {
-                setUpDisplayTablePatientTable();
-            } catch (SQLException ex) {
-                Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }else if(d_table == curr_display_table.DOCTOR_TABLE){
-            
-            
+        try {
+            // TODO add your handling code here:
+            renderSelectedTableToJTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -379,6 +388,10 @@ public class Admin_Panel extends javax.swing.JFrame {
                 //These modifications include , sending the pk of patient to update , and loading data into the form
                 if (new DBA().delPatient(pk_to_del)) {
                     jLabel1.setText("Successful Deletion");
+                    
+                    //Call the appropriate JTable renderer
+                    renderSelectedTableToJTable();
+                    
                 }else  {
                     jLabel1.setText("Error in deletion!");
                 }

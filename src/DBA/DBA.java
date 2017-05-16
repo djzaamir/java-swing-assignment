@@ -287,6 +287,6 @@ public class DBA {
         //inserting data into the prepared statement 
         statement.setInt(1, id_to_del);
       
-        return statement.execute();
+        return statement.execute()==false;
         }
 }
