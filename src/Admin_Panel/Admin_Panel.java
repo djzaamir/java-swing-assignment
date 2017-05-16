@@ -8,6 +8,7 @@ import DBA.*;
 import Add_Patient.*;
 import Add_Doctor.*;
 import Add_Disease.*;
+import java.awt.Font;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -141,6 +142,11 @@ public class Admin_Panel extends javax.swing.JFrame {
 
         jButton4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jButton4.setText("Delete Record");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -199,6 +205,11 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setText("Delete Patient");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
 
         jMenu4.setText("Update Records");
@@ -347,6 +358,44 @@ public class Admin_Panel extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        
+        //first of all change the jLabel being used for msgs
+        jLabel1.setText("Select a Patient to delete"); 
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        
+        //check if a row is selected or not
+        int row_to_del = jTable1.getSelectedRow();
+        if (row_to_del != -1) {
+         //Now we need extract primary key out of it
+         int pk_to_del = (int) jTable1.getValueAt(row_to_del, 0);
+            try {
+                //Now we need to open the same new patient form , but with some modificatios
+                //These modifications include , sending the pk of patient to update , and loading data into the form
+                if (new DBA().delPatient(pk_to_del)) {
+                    jLabel1.setText("Successful Deletion");
+                }else  {
+                    jLabel1.setText("Error in deletion!");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }else{
+            jLabel1.setText("Please Select a patient to delete");
+        }
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -167,7 +167,12 @@ public class Alpha extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
           this.setVisible(false);
-          Admin_Panel panel =  new Admin_Panel();
+          Admin_Panel panel = null;
+        try {
+            panel = new Admin_Panel();
+        } catch (SQLException ex) {
+            Logger.getLogger(Alpha.class.getName()).log(Level.SEVERE, null, ex);
+        }
           panel.setVisible(true);
         //make sure that the fields are not empty
          if (!jTextField1.getText().equals("") && !new String(jPasswordField1.getPassword()).equals("")) {

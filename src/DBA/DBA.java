@@ -273,5 +273,20 @@ public class DBA {
         }
         return patients;
     }
+ 
     
+    //function to delete a single patient from patient table
+    public boolean delPatient(int id_to_del ) throws SQLException{
+        
+        initDatabaseConnection();
+        
+        String query  ="DELETE FROM `Patient` WHERE `patient_id`=?";
+        
+        PreparedStatement statement  =  conn.prepareStatement(query);
+        
+        //inserting data into the prepared statement 
+        statement.setInt(1, id_to_del);
+      
+        return statement.execute();
+        }
 }
