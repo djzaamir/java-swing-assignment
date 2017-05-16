@@ -138,6 +138,11 @@ public class Admin_Panel extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jButton3.setText("Update Record");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -437,6 +442,47 @@ public class Admin_Panel extends javax.swing.JFrame {
             Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+        int selected_row  =  jTable1.getSelectedRow();
+        if (selected_row !=  -1) {
+            
+            //grab the pk from row
+            int pk = (int) jTable1.getValueAt(selected_row, 0);
+            
+            if (d_table == curr_display_table.PATIENT_TABLE) { //for Patient
+                Add_Patient update_patient  =  new Add_Patient();
+                update_patient.setSent_pk_from_Admin_panel(pk);
+                try {
+                    update_patient.loadDataToForm();
+                    update_patient.setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            //for Doctor
+            else{
+                Add_Doctor update_docotor = null;
+                try {
+                    update_docotor = new Add_Doctor();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                update_docotor.setSent_pk_from_Admin_panel(pk);
+                update_docotor.loadDataToForm();
+                
+            }
+            
+        }else{
+            if (d_table == curr_display_table.PATIENT_TABLE) {
+                jLabel1.setText("Select a Patient to Update");
+            }else{
+                jLabel1.setText("Select a Doctor to Update");
+            }
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

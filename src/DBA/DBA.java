@@ -129,6 +129,70 @@ public class DBA {
           }
           return id;
      }
+   
+     
+    //function to update a patient
+    public boolean updatePatient(Patient update_patient , int pk) throws SQLException{
+        
+        initDatabaseConnection();
+        
+        //update query
+        String query = "UPDATE `Patient` SET `patient_name`=? ,`patient_father_name`=? , `sex`=? , `dob`=? , `doctor_name`=? WHERE `patient_id`=?";
+        
+        PreparedStatement statement  =  conn.prepareStatement(query);
+        
+        //Inserting data into the statement
+        statement.setString(1, update_patient.getPatient_name());
+        statement.setString(2, update_patient.getPatient_father_name());
+        statement.setBoolean(3,update_patient.getSex());//here false means female and True Means Male
+        //java.sql.Date sqlDate = new java.sql.Date(new_patient.getDob().getTime());
+        statement.setDate(4, update_patient.getDob());
+        statement.setString(5, update_patient.getDoctor_name());
+        
+        //insert pk into the statement
+        statement.setInt(6, pk);
+        
+        //Executing statment here
+        return statement.execute() == false;
+        
+    }
+    
+    
+    //function to update disease History
+    public boolean updateDiseaseHistory(String disease_h , int pk) throws SQLException{
+        initDatabaseConnection();
+        
+        //update query
+        String query = "UPDATE `Disease_History` SET `disease_history`=? WHERE `patient_id`=?";
+        
+        PreparedStatement statement  =  conn.prepareStatement(query);
+        
+        //inserting data into the statement
+        statement.setString(1, disease_h);
+        statement.setInt(2, pk);
+        
+        return statement.execute() == false;
+    }
+    
+    
+    //function to update prescription 
+    public boolean updatePrescription(String prescription_h , int pk) throws SQLException{
+        initDatabaseConnection();
+        
+        //update query
+        String query = "UPDATE `Prescription_History` SET `prescription`=? WHERE `patient_id`=?";
+        
+        PreparedStatement statement = conn.prepareStatement(query);
+        
+        //inserting data into statement
+        
+        
+        statement.setString(1,prescription_h);
+        statement.setInt(2, pk);
+        
+        return statement.execute() == false;
+    }
+    
     
     //function to add a doctor
     public boolean addDoctor(Doctor d) throws SQLException{
@@ -274,7 +338,78 @@ public class DBA {
         }
         return patients;
     }
+    
+    public Patient getPatient(int pk) throws SQLException{
+        
+        initDatabaseConnection();
+        
+        Patient to_return =  new Patient();
+        
+        String query = "SELECT * FROM `Patient` WHERE `patient_id`=?";
+        
+        //Initiating PrepareStatement
+        PreparedStatement statement  =  conn.prepareStatement(query);
+        
+        //inseting values into preparestatement
+        statement.setInt(1, pk);
+        
+        ResultSet set =  statement.executeQuery();
+        
+        while(set.next()){
+            
+            to_return.setPatient_id(pk);
+            to_return.setPatient_name(set.getString("patient_name"));
+            to_return.setPatient_father_name(set.getString("patient_father_name"));
+            to_return.setSex(set.getBoolean("sex"));
+            to_return.setDob(set.getDate("dob"));
+            to_return.setDoctor_name(set.getString("doctor_name"));
+            
+        }
+        
+        return to_return;
+    }
  
+    
+    public Disease_History getDisease_History(int pk) throws SQLException{
+        initDatabaseConnection();
+        
+        Disease_History disease_History  =  new Disease_History();
+        String query = "SELECT * FROM `Disease_History` WHERE `patient_id`=?";
+        
+        PreparedStatement statement =  conn.prepareStatement(query);
+        
+        statement.setInt(1, pk);
+        ResultSet set =  statement.executeQuery();
+        
+        while(set.next()){
+            disease_History.setHistory_id(set.getInt("history_id"));
+            disease_History.setPatient_id(set.getInt("patient_id"));
+            disease_History.setDisease_history(set.getString("disease_history"));
+            disease_History.setHistory_timestamp(set.getDate("history_timestamp"));
+        }
+        return disease_History;
+    } 
+    
+    
+    public Prescription_History getPrescription_History(int pk) throws SQLException{
+        initDatabaseConnection();
+        
+        Prescription_History pres_History  =  new Prescription_History();
+        String query = "SELECT * FROM `Prescription_History` WHERE `patient_id`=?";
+        
+        PreparedStatement statement =  conn.prepareStatement(query);
+        
+        statement.setInt(1, pk);
+        ResultSet set =  statement.executeQuery();
+        
+        while(set.next()){
+            pres_History.setPrescription_id(set.getInt("prescription_id"));
+            pres_History.setPatient_id(pk);
+            pres_History.setPrescription(set.getString("prescription"));
+            pres_History.setPrescription_timestamp(set.getDate("prescription_timestamp"));
+        }
+        return pres_History;
+    }
     
     //function to delete a single patient from patient table
     public boolean delPatient(int id_to_del ) throws SQLException{

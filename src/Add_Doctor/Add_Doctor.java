@@ -17,6 +17,15 @@ import java.util.logging.Logger;
  */
 public class Add_Doctor extends javax.swing.JFrame {
 
+    private int sent_pk_from_Admin_panel;
+
+    public int getSent_pk_from_Admin_panel() {
+        return sent_pk_from_Admin_panel;
+    }
+
+    public void setSent_pk_from_Admin_panel(int sent_pk_from_Admin_panel) {
+        this.sent_pk_from_Admin_panel = sent_pk_from_Admin_panel;
+    }
     /**
      * Creates new form Add_Doctor
      */
@@ -276,4 +285,8 @@ public class Add_Doctor extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    public void loadDataToForm() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

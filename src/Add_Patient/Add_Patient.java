@@ -20,10 +20,28 @@ import javax.swing.JRadioButton;
  */
 public class Add_Patient extends javax.swing.JFrame {
 
+    private int sent_pk_from_Admin_panel;
+
+    public int getSent_pk_from_Admin_panel() {
+        return sent_pk_from_Admin_panel;
+    }
+
+    public void setSent_pk_from_Admin_panel(int sent_pk_from_Admin_panel) {
+        this.sent_pk_from_Admin_panel = sent_pk_from_Admin_panel;
+    }
+    
+    
+    
+    
+    
     /**
      * Creates new form Add_Patient
      */
     public Add_Patient() {
+        
+        //set sent_pk_from_Admin_panel to -1
+        this.sent_pk_from_Admin_panel = -1;
+        
         initComponents();
         //Adding radio buttons to button group
         buttonGroup1.add(jRadioButton1);
@@ -32,11 +50,11 @@ public class Add_Patient extends javax.swing.JFrame {
         //Pushing data to jComboBox 
         try {
             // TODO add your handling code here:
-            LinkedList<String> Doctors  = new DBA().getDoctors();
+            LinkedList<Doctor> Doctors  = new DBA().getDoctors();
             
             //Adding items to jComboBox 
-            for(String doctor : Doctors){
-                jComboBox1.addItem(doctor);
+            for(Doctor doctor : Doctors){
+                jComboBox1.addItem(doctor.getDoctor_name());
             }
         } catch (SQLException ex) {
             Logger.getLogger(Add_Patient.class.getName()).log(Level.SEVERE, null, ex);
@@ -281,7 +299,8 @@ public class Add_Patient extends javax.swing.JFrame {
         Patient p = new Patient(1, name , fname ,sex , dob , doc_name ,  disease_history ,prescription);
         
         
-        try {
+            if (this.sent_pk_from_Admin_panel == -1) { //if pk is not provided externally
+                try {
             //Inserting data to  patient , disease table
             int new_p_id  = new DBA().addPatient(p);
            
@@ -299,6 +318,29 @@ public class Add_Patient extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Add_Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
+            }
+            //if pk is provided is provided externally then perform update  operation instead of insert new
+            else{
+               
+            try {
+                //update basic patient information
+                DBA dba =  new DBA();
+                if (dba.updatePatient(p, this.sent_pk_from_Admin_panel) && 
+                        dba.updateDiseaseHistory(p.getDisease_history(), this.sent_pk_from_Admin_panel) &&
+                        dba.updatePrescription(p.getPrescription(), this.sent_pk_from_Admin_panel)) {
+                    
+                    //Update disease and prescription the same way as general patient information
+                        this.setVisible(false);
+                    
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Add_Patient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+                   
+            }
+        
+        
         }else{
             jLabel9.setText("All Fields Are Required!");
         }
@@ -379,4 +421,26 @@ public class Add_Patient extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    public void loadDataToForm() throws SQLException {
+       //get all patient data againt the Pk provided
+       Patient loaded_patient_db = new DBA().getPatient(this.sent_pk_from_Admin_panel);
+       
+       //populate data into the form 
+       jTextField1.setText(loaded_patient_db.getPatient_name());
+       jTextField2.setText(loaded_patient_db.getPatient_father_name());
+        if (loaded_patient_db.getSex()) { //if its true then it means its a male
+            jRadioButton1.setSelected(true);
+        }
+        //Else it means its a female
+        else{
+            jRadioButton1.setSelected(false);
+        }
+        jDateChooser1.setDate(loaded_patient_db.getDob());
+        Disease_History disease_h = new DBA().getDisease_History(this.sent_pk_from_Admin_panel);
+        Prescription_History pres_h  = new DBA().getPrescription_History(this.sent_pk_from_Admin_panel);
+        jTextArea1.setText(disease_h.getDisease_history());
+        jTextArea2.setText(pres_h.getPrescription());
+        
+    }
 }
