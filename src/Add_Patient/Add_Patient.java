@@ -101,6 +101,7 @@ public class Add_Patient extends javax.swing.JFrame {
         setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         setIconImages(null);
         setLocation(new java.awt.Point(430, 150));
+        setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(995, 765));
         setMinimumSize(new java.awt.Dimension(995, 765));
         setType(java.awt.Window.Type.UTILITY);

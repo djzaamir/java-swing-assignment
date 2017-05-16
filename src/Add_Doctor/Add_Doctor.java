@@ -67,6 +67,7 @@ public class Add_Doctor extends javax.swing.JFrame {
         setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         setIconImages(null);
         setLocation(new java.awt.Point(500, 500));
+        setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(609, 423));
         setMinimumSize(new java.awt.Dimension(609, 423));
         setResizable(false);

@@ -21,6 +21,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Admin_Panel extends javax.swing.JFrame {
 
+    
+    
+    //vars
+    private enum curr_display_table {PATIENT_TABLE , DOCTOR_TABLE};
+    private  curr_display_table d_table; 
+    private enum curr_patient_srh_func {By_id , By_name , By_fname ,By_doctorname ,By_disease, By_dob};
+    private curr_patient_srh_func Search_function_Patient = curr_patient_srh_func.By_id;
+    //end of cars
+    
+    
+    
+    
     private void renderSelectedTableToJTable() throws SQLException {
       if (d_table == curr_display_table.PATIENT_TABLE) {
             
@@ -37,11 +49,6 @@ public class Admin_Panel extends javax.swing.JFrame {
         }    
     }
 
-    
-    //vars
-    private enum curr_display_table {PATIENT_TABLE , DOCTOR_TABLE};
-    private  curr_display_table d_table;
-    
     /**
      * Creates new form Admin_Panel
      * @throws java.sql.SQLException
@@ -75,6 +82,8 @@ public class Admin_Panel extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -113,7 +122,8 @@ public class Admin_Panel extends javax.swing.JFrame {
         setFocusable(false);
         setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
         setIconImages(null);
-        setLocation(new java.awt.Point(400, 300));
+        setLocation(new java.awt.Point(200, 150));
+        setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(859, 618));
         setMinimumSize(new java.awt.Dimension(859, 618));
 
@@ -194,6 +204,17 @@ public class Admin_Panel extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel2.setText("Search by");
+
+        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
+
         jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuBar1.setInheritsPopupMenu(true);
 
@@ -260,6 +281,11 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenu2.setInheritsPopupMenu(true);
 
         jMenuItem10.setText("Patient By ID");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem10);
 
         jMenuItem11.setText("Patient By Name");
@@ -304,39 +330,47 @@ public class Admin_Panel extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 930, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(20, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(244, 244, 244)
+                        .addGap(245, 245, 245)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49))
+                        .addGap(48, 48, 48))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)
-                        .addGap(24, 24, 24))))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1067, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 30, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 14, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -489,6 +523,56 @@ public class Admin_Panel extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        //set label to search by id
+        jLabel2.setText("Search by Id :");
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        
+        try {
+            DBA dba = new DBA();
+            
+            //Enable button for deletion , because this is againt our bussines rule
+        jButton4.setEnabled(true);
+        
+        d_table = curr_display_table.PATIENT_TABLE; //Change the functionality of refresh button to update for doctors
+        
+        jLabel1.setText("Patient Records"); //change the label to display doctor records
+
+
+         //by default load patients record into jTable
+        DefaultTableModel model =  new DefaultTableModel();  //creating a model for JTable class
+        Object[] columns = {"Id","Name", "Father Name" , "Gender" , "Date of birth" , "Doctor Name"}; //setting up identifiers for jtable class
+        model.setColumnIdentifiers(columns); //Now binding Identifiers with model
+        jTable1.setModel(model);//Now Binding Model with jTable
+        
+         Object test_content = jTextField1.getText();
+         LinkedList<Patient> patients = dba.searchPatient(DBA.SEARCH.BY_ID, test_content);
+         Object[] row = new Object[6];
+         for(Patient p : patients){
+            
+             //Now adding data from each patient to the row
+             row[0] =  p.getPatient_id();
+             row[1] =  p.getPatient_name();
+             row[2] =  p.getPatient_father_name();
+             row[3] =  (p.getSex() == true ? "Male":"Female");
+             row[4] =  p.getDob();
+             row[5] = p.getDoctor_name();
+             
+             //Now add this row to the model
+             model.addRow(row);
+             
+         }
+            
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTextField1KeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -533,6 +617,7 @@ public class Admin_Panel extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -563,6 +648,7 @@ public class Admin_Panel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
     

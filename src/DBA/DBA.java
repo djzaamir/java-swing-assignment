@@ -19,6 +19,7 @@ public class DBA {
     private final String dbms_url = "jdbc:mysql://localhost:3306/clinic";
     private final String username = "root";
     private final String password = "";
+    public static enum SEARCH {BY_ID , BY_NAME  , BY_DISEASE , BY_DOCTOR_NAME , BY_DOB};
     //end of vars
     
     
@@ -27,6 +28,7 @@ public class DBA {
        //do nothing in the constructor
       
     }
+    
     
     //Function to establish connection with the DB server
     private void initDatabaseConnection() throws SQLException{
@@ -40,6 +42,53 @@ public class DBA {
             System.out.println("Error connecting to database");
         }
         
+    }
+    
+    
+    
+    //verstile search function
+    public LinkedList<Patient> searchPatient(SEARCH search_type ,  Object test_content) throws SQLException{
+        
+        initDatabaseConnection();
+        
+        LinkedList<Patient> to_return =  new LinkedList<>();
+        String query_param = "";
+        String casted_test_content_str = "";
+        int casted_test_content_int;
+        //Now checking the type of Search Query
+        if (search_type == SEARCH.BY_ID) {
+            query_param = "patient_id";
+            casted_test_content_int = (int)test_content;
+        }else if(search_type == SEARCH.BY_NAME){
+            query_param = "patient_name";
+            casted_test_content_str = (String)test_content;
+        }else if(search_type == SEARCH.BY_DOCTOR_NAME){
+            query_param = "doctor_name";
+            casted_test_content_str = (String)test_content;
+        }
+        
+        
+        String query = "SELECT * FROM `Patient` WHERE `"+query_param+"`=?";
+        
+        PreparedStatement statement =  conn.prepareStatement(query);
+        
+        ResultSet set =  statement.executeQuery();
+        
+        while (set.next()) {            
+            Patient p =  new Patient();
+            p.setPatient_id(set.getInt("patient_id"));
+            p.setPatient_name(set.getString("patient_name"));
+            p.setPatient_father_name("patient_father_name");
+            p.setSex(set.getBoolean("sex"));
+            p.setDob(set.getDate("dob"));
+            p.setDoctor_name(set.getString("doctor_name"));
+         
+             to_return.add(p);
+        }
+        
+        
+        
+        return to_return;
     }
     
     //function to get all records
@@ -319,7 +368,7 @@ public class DBA {
         
         if (set != null) {
             while (set.next()){
-                Doctor new_doctor = new Doctor(set.getInt("doctor_id") , set.getString("doctor_specialization") , set.getString("doctor_name"));
+                Doctor new_doctor = new Doctor(set.getInt("doctor_id") , set.getString("doctor_name") , set.getString("doctor_specialization"));
                 doctors.add(new_doctor);
             }
         }

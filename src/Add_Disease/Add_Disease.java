@@ -46,6 +46,7 @@ public class Add_Disease extends javax.swing.JFrame {
         setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         setIconImages(null);
         setLocation(new java.awt.Point(500, 350));
+        setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(400, 300));
         setMinimumSize(new java.awt.Dimension(400, 300));
         setType(java.awt.Window.Type.UTILITY);
