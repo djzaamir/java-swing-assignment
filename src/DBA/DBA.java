@@ -401,7 +401,7 @@ public class DBA {
         
         if (set != null) {
             while (set.next()){
-                Doctor new_doctor = new Doctor(set.getInt("doctor_id") , set.getString("doctor_name") , set.getString("doctor_specialization"));
+                Doctor new_doctor = new Doctor(set.getInt("doctor_id") , set.getString("doctor_specialization") , set.getString("doctor_name"));
                 doctors.add(new_doctor);
             }
         }

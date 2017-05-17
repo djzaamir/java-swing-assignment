@@ -311,6 +311,11 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenu2.add(jMenuItem13);
 
         jMenuItem14.setText("Patient By Doctor");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem14);
 
         jMenu7.setText("Search Doctor");
@@ -586,6 +591,8 @@ public class Admin_Panel extends javax.swing.JFrame {
                    patients = dba.searchPatient(DBA.SEARCH.BY_ID, test_content);
                 }else if (Search_function_Patient == curr_patient_srh_func.By_name) {
                    patients = dba.searchPatient(DBA.SEARCH.BY_NAME, test_content); 
+                }else if(Search_function_Patient == curr_patient_srh_func.By_doctorname){
+                   patients = dba.searchPatient(DBA.SEARCH.BY_DOCTOR_NAME, test_content); 
                 }
                 
                 
@@ -623,6 +630,14 @@ public class Admin_Panel extends javax.swing.JFrame {
         //set the search method to Search by id
         Search_function_Patient = curr_patient_srh_func.By_name;
     }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        //set label to search by id
+        jLabel2.setText("Search by Doctor :");
+        
+        //set the search method to Search by id
+        Search_function_Patient = curr_patient_srh_func.By_doctorname;
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
     
     /**
      * @param args the command line arguments
