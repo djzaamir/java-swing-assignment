@@ -19,6 +19,24 @@ public class DBA {
     private final String dbms_url = "jdbc:mysql://localhost:3306/clinic";
     private final String username = "root";
     private final String password = "";
+
+    private int tryToParseInt(String parseInt) {
+       boolean good_to_parse = true;
+        for (int i = 0; i < parseInt.length(); i++) {
+            if (parseInt.charAt(i) >= '0' && parseInt.charAt(i) <= '9') {
+               //do nothing
+            }else{
+                good_to_parse = false;
+                break;
+            }
+        }
+        
+        if (good_to_parse) {
+            return  Integer.parseInt(parseInt);
+        }else{
+            return 0;
+        }
+   }
     public static enum SEARCH {BY_ID , BY_NAME  , BY_DISEASE , BY_DOCTOR_NAME , BY_DOB};
     //end of vars
     
@@ -54,11 +72,11 @@ public class DBA {
         LinkedList<Patient> to_return =  new LinkedList<>();
         String query_param = "";
         String casted_test_content_str = "";
-        int casted_test_content_int;
+        int casted_test_content_int = 0;
         //Now checking the type of Search Query
         if (search_type == SEARCH.BY_ID) {
             query_param = "patient_id";
-            casted_test_content_int = (int)test_content;
+            casted_test_content_int = tryToParseInt((String)test_content);
         }else if(search_type == SEARCH.BY_NAME){
             query_param = "patient_name";
             casted_test_content_str = (String)test_content;
@@ -67,26 +85,41 @@ public class DBA {
             casted_test_content_str = (String)test_content;
         }
         
-        
-        String query = "SELECT * FROM `Patient` WHERE `"+query_param+"`=?";
+        String query = "";
+        if (search_type == SEARCH.BY_ID) {
+            query = "SELECT * FROM `Patient` WHERE `"+query_param+"`=?";
+        }else{
+            query = "SELECT * FROM `Patient` WHERE `"+query_param+"` LIKE ?";
+        }
         
         PreparedStatement statement =  conn.prepareStatement(query);
         
-        ResultSet set =  statement.executeQuery();
+        //Now inserting data into the prepared statment
+        //Based on type of insertion we will use two different inserting methods
+        //use Integer Insertion
         
-        while (set.next()) {            
-            Patient p =  new Patient();
-            p.setPatient_id(set.getInt("patient_id"));
-            p.setPatient_name(set.getString("patient_name"));
-            p.setPatient_father_name("patient_father_name");
-            p.setSex(set.getBoolean("sex"));
-            p.setDob(set.getDate("dob"));
-            p.setDoctor_name(set.getString("doctor_name"));
-         
-             to_return.add(p);
+        if (search_type == SEARCH.BY_ID) {
+            statement.setInt(1, casted_test_content_int);
+        }
+        //Otherwise the we will use String insertion
+        else{
+            statement.setString(1, casted_test_content_str);
         }
         
         
+        
+         ResultSet set =  statement.executeQuery();
+          while (set.next()) {            
+             Patient p =  new Patient();
+             p.setPatient_id(set.getInt("patient_id"));
+             p.setPatient_name(set.getString("patient_name"));
+             p.setPatient_father_name(set.getString("patient_father_name"));
+             p.setSex(set.getBoolean("sex"));
+             p.setDob(set.getDate("dob"));
+             p.setDoctor_name(set.getString("doctor_name"));
+         
+             to_return.add(p);
+          }
         
         return to_return;
     }

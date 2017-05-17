@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package Admin_Panel;
 import DBA.*;
 import Add_Patient.*;
@@ -20,12 +20,12 @@ import javax.swing.table.DefaultTableModel;
  * @author djzaamir
  */
 public class Admin_Panel extends javax.swing.JFrame {
-
+    
     
     
     //vars
     private enum curr_display_table {PATIENT_TABLE , DOCTOR_TABLE};
-    private  curr_display_table d_table; 
+    private  curr_display_table d_table;
     private enum curr_patient_srh_func {By_id , By_name , By_fname ,By_doctorname ,By_disease, By_dob};
     private curr_patient_srh_func Search_function_Patient = curr_patient_srh_func.By_id;
     //end of cars
@@ -34,7 +34,7 @@ public class Admin_Panel extends javax.swing.JFrame {
     
     
     private void renderSelectedTableToJTable() throws SQLException {
-      if (d_table == curr_display_table.PATIENT_TABLE) {
+        if (d_table == curr_display_table.PATIENT_TABLE) {
             
             try {
                 setUpDisplayTablePatientTable();
@@ -43,12 +43,12 @@ public class Admin_Panel extends javax.swing.JFrame {
             }
             
         }else if(d_table == curr_display_table.DOCTOR_TABLE){
-         
-           setUpDisplayTableDoctorTable();
             
-        }    
+            setUpDisplayTableDoctorTable();
+            
+        }
     }
-
+    
     /**
      * Creates new form Admin_Panel
      * @throws java.sql.SQLException
@@ -59,7 +59,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         
         setUpDisplayTablePatientTable();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -206,12 +206,20 @@ public class Admin_Panel extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel2.setText("Search by");
+        jLabel2.setText("Search by Id");
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField1KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
             }
         });
 
@@ -289,6 +297,11 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenu2.add(jMenuItem10);
 
         jMenuItem11.setText("Patient By Name");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem11);
 
         jMenuItem8.setText("Patient By Age");
@@ -375,7 +388,7 @@ public class Admin_Panel extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
@@ -387,9 +400,9 @@ public class Admin_Panel extends javax.swing.JFrame {
         }
         new_doctor_form.setVisible(true);
         new_doctor_form.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-       
+        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
+    
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         
@@ -399,7 +412,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         new_patient_form.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
+    
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
         Add_Disease new_disease =  new Add_Disease();
@@ -407,7 +420,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         new_disease.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
@@ -416,22 +429,22 @@ public class Admin_Panel extends javax.swing.JFrame {
             Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
         
         //first of all change the jLabel being used for msgs
         jLabel1.setText("Select a Patient to delete"); 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
-
+    
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         
         //check if a row is selected or not
         int row_to_del = jTable1.getSelectedRow();
         if (row_to_del != -1) {
-         //Now we need extract primary key out of it
-         int pk_to_del = (int) jTable1.getValueAt(row_to_del, 0);
+            //Now we need extract primary key out of it
+            int pk_to_del = (int) jTable1.getValueAt(row_to_del, 0);
             try {
                 //Now we need to open the same new patient form , but with some modificatios
                 //These modifications include , sending the pk of patient to update , and loading data into the form
@@ -458,7 +471,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton4ActionPerformed
-
+    
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         try {
             // TODO add your handling code here:
@@ -467,7 +480,7 @@ public class Admin_Panel extends javax.swing.JFrame {
             Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem7ActionPerformed
-
+    
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         try {
             // TODO add your handling code here:
@@ -476,7 +489,7 @@ public class Admin_Panel extends javax.swing.JFrame {
             Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
-
+    
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
         int selected_row  =  jTable1.getSelectedRow();
@@ -522,48 +535,78 @@ public class Admin_Panel extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton3ActionPerformed
-
+    
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         //set label to search by id
         jLabel2.setText("Search by Id :");
+        
+        //set the search method to Search by id
+        Search_function_Patient = curr_patient_srh_func.By_id; 
     }//GEN-LAST:event_jMenuItem10ActionPerformed
-
+    
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         
+        
+    }//GEN-LAST:event_jTextField1KeyPressed
+    
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+    
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
         try {
             DBA dba = new DBA();
             
             //Enable button for deletion , because this is againt our bussines rule
-        jButton4.setEnabled(true);
-        
-        d_table = curr_display_table.PATIENT_TABLE; //Change the functionality of refresh button to update for doctors
-        
-        jLabel1.setText("Patient Records"); //change the label to display doctor records
-
-
-         //by default load patients record into jTable
-        DefaultTableModel model =  new DefaultTableModel();  //creating a model for JTable class
-        Object[] columns = {"Id","Name", "Father Name" , "Gender" , "Date of birth" , "Doctor Name"}; //setting up identifiers for jtable class
-        model.setColumnIdentifiers(columns); //Now binding Identifiers with model
-        jTable1.setModel(model);//Now Binding Model with jTable
-        
-         Object test_content = jTextField1.getText();
-         LinkedList<Patient> patients = dba.searchPatient(DBA.SEARCH.BY_ID, test_content);
-         Object[] row = new Object[6];
-         for(Patient p : patients){
+            jButton4.setEnabled(true);
             
-             //Now adding data from each patient to the row
-             row[0] =  p.getPatient_id();
-             row[1] =  p.getPatient_name();
-             row[2] =  p.getPatient_father_name();
-             row[3] =  (p.getSex() == true ? "Male":"Female");
-             row[4] =  p.getDob();
-             row[5] = p.getDoctor_name();
-             
-             //Now add this row to the model
-             model.addRow(row);
-             
-         }
+            d_table = curr_display_table.PATIENT_TABLE; //Change the functionality of refresh button to update for doctors
+            
+            jLabel1.setText("Patient Records"); //change the label to display doctor records
+            
+            
+            //by default load patients record into jTable
+            DefaultTableModel model =  new DefaultTableModel();  //creating a model for JTable class
+            Object[] columns = {"Id","Name", "Father Name" , "Gender" , "Date of birth" , "Doctor Name"}; //setting up identifiers for jtable class
+            model.setColumnIdentifiers(columns); //Now binding Identifiers with model
+            jTable1.setModel(model);//Now Binding Model with jTable
+            
+            Object test_content = null; //this var will be used to to hold the data to match on the basis of which results will be returned
+            
+            //Grabing content from jTextField
+            test_content = jTextField1.getText();
+            
+            if (!((String)test_content).equals("")){
+                LinkedList<Patient> patients = null;
+                
+                
+                //Now deciding what kinda method to invoke from dba
+                if (Search_function_Patient == curr_patient_srh_func.By_id) {
+                   patients = dba.searchPatient(DBA.SEARCH.BY_ID, test_content);
+                }else if (Search_function_Patient == curr_patient_srh_func.By_name) {
+                   patients = dba.searchPatient(DBA.SEARCH.BY_NAME, test_content); 
+                }
+                
+                
+                Object[] row = new Object[6];
+                for(Patient p : patients){
+                    
+                    //Now adding data from each patient to the row
+                    row[0] =  p.getPatient_id();
+                    row[1] =  p.getPatient_name();
+                    row[2] =  p.getPatient_father_name();
+                    row[3] =  (p.getSex() == true ? "Male":"Female");
+                    row[4] =  p.getDob();
+                    row[5] = p.getDoctor_name();
+                    
+                    //Now add this row to the model
+                    model.addRow(row);
+                    
+                }
+            }else{
+                renderSelectedTableToJTable();
+            }
             
             
             
@@ -571,8 +614,16 @@ public class Admin_Panel extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jTextField1KeyPressed
+    }//GEN-LAST:event_jTextField1KeyReleased
 
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+         //set label to search by id
+        jLabel2.setText("Search by Name :");
+        
+        //set the search method to Search by id
+        Search_function_Patient = curr_patient_srh_func.By_name;
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -580,8 +631,8 @@ public class Admin_Panel extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -599,7 +650,7 @@ public class Admin_Panel extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Admin_Panel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -611,7 +662,7 @@ public class Admin_Panel extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
@@ -650,7 +701,7 @@ public class Admin_Panel extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
-
+    
     
     
     //function to display records from patients to JTable
@@ -662,30 +713,30 @@ public class Admin_Panel extends javax.swing.JFrame {
         d_table = curr_display_table.PATIENT_TABLE; //Change the functionality of refresh button to update for doctors
         
         jLabel1.setText("Patient Records"); //change the label to display doctor records
-
-
-         //by default load patients record into jTable
+        
+        
+        //by default load patients record into jTable
         DefaultTableModel model =  new DefaultTableModel();  //creating a model for JTable class
         Object[] columns = {"Id","Name", "Father Name" , "Gender" , "Date of birth" , "Doctor Name"}; //setting up identifiers for jtable class
         model.setColumnIdentifiers(columns); //Now binding Identifiers with model
         jTable1.setModel(model);//Now Binding Model with jTable
         
-         LinkedList<Patient> patients = new DBA().getPatients();
-         Object[] row = new Object[6];
-         for(Patient p : patients){
+        LinkedList<Patient> patients = new DBA().getPatients();
+        Object[] row = new Object[6];
+        for(Patient p : patients){
             
-             //Now adding data from each patient to the row
-             row[0] =  p.getPatient_id();
-             row[1] =  p.getPatient_name();
-             row[2] =  p.getPatient_father_name();
-             row[3] =  (p.getSex() == true ? "Male":"Female");
-             row[4] =  p.getDob();
-             row[5] = p.getDoctor_name();
-             
-             //Now add this row to the model
-             model.addRow(row);
-             
-         }
+            //Now adding data from each patient to the row
+            row[0] =  p.getPatient_id();
+            row[1] =  p.getPatient_name();
+            row[2] =  p.getPatient_father_name();
+            row[3] =  (p.getSex() == true ? "Male":"Female");
+            row[4] =  p.getDob();
+            row[5] = p.getDoctor_name();
+            
+            //Now add this row to the model
+            model.addRow(row);
+            
+        }
     }
     
     //function to display Records from doctor to JTable
