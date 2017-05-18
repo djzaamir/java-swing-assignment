@@ -437,7 +437,7 @@ public class DBA {
         ResultSet set = statement.executeQuery();
         
         while(set.next()){
-            d.setDoctor(set.getInt(pk));
+            d.setDoctor(pk);
             d.setDoctor_name(set.getString("doctor_name"));
             d.setDoctor_specialization_id(set.getString("doctor_specialization"));
         }

@@ -444,11 +444,11 @@ public class Admin_Panel extends javax.swing.JFrame {
                         .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -544,6 +544,7 @@ public class Admin_Panel extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         try {
               d_table = curr_display_table.DOCTOR_TABLE;
+              Search_function_Patient = curr_patient_srh_func.By_doctorname;
               setUpDisplayTableDoctorTable();
         } catch (SQLException ex) {
             Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
@@ -553,6 +554,7 @@ public class Admin_Panel extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         try {
             d_table = curr_display_table.PATIENT_TABLE;
+            Search_function_Patient = curr_patient_srh_func.By_id;
             // TODO add your handling code here:
             setUpDisplayTablePatientTable();
         } catch (SQLException ex) {
@@ -1019,8 +1021,8 @@ public class Admin_Panel extends javax.swing.JFrame {
         
         for(Doctor doctor : doctors){
             row[0]  = doctor.getDoctor_id();
-            row[1]  = doctor.getDoctor_name();
-            row[2] = doctor.getDoctor_specialization();
+            row[1]  = doctor.getDoctor_specialization();
+            row[2] = doctor.getDoctor_name();
             
             model.addRow(row);
         }
