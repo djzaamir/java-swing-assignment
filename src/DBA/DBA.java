@@ -73,7 +73,10 @@ public class DBA {
         String query_param = "";
         String casted_test_content_str = "";
         int casted_test_content_int = 0;
-        //Now checking the type of Search Query
+       
+       
+        
+        //Now checking the type of Search Query and adjusting search parameter accordingly
         if (search_type == SEARCH.BY_ID) {
             query_param = "patient_id";
             casted_test_content_int = tryToParseInt((String)test_content);
@@ -83,11 +86,20 @@ public class DBA {
         }else if(search_type == SEARCH.BY_DOCTOR_NAME){
             query_param = "doctor_name";
             casted_test_content_str = (String)test_content;
+        }else if(search_type == SEARCH.BY_DOB){
+            query_param = "dob";
+            casted_test_content_int =tryToParseInt((String)test_content);
         }
+        
+        
+        
+        
         
         String query = "";
         if (search_type == SEARCH.BY_ID) {
             query = "SELECT * FROM `Patient` WHERE `"+query_param+"`=?";
+        }else if(search_type == SEARCH.BY_DOB){
+            query = "SELECT * FROM `Patient`";
         }else{
             query = "SELECT * FROM `Patient` WHERE `"+query_param+"` LIKE ?";
         }
@@ -100,6 +112,9 @@ public class DBA {
         
         if (search_type == SEARCH.BY_ID) {
             statement.setInt(1, casted_test_content_int);
+        }
+        else if(search_type == SEARCH.BY_DOB){
+           // do nothing in this case , although its such terrible style of coding
         }
         //Otherwise the we will use String insertion
         else{
@@ -427,6 +442,33 @@ public class DBA {
             d.setDoctor_specialization_id(set.getString("doctor_specialization"));
         }
         return d;
+    }
+    
+    //function to get dcotors based upon field of specialization
+    public LinkedList<Doctor> searchDoctorBasedUponSpecialization(String specialization) throws SQLException{
+        LinkedList<Doctor> to_return  =  new LinkedList<>();
+        
+        initDatabaseConnection();
+        
+        String query =  "SELECT * FROM `Doctor` WHERE `doctor_specialization`=?";
+        
+        PreparedStatement statement =  conn.prepareStatement(query);
+        
+        //insert values into query
+        
+        statement.setString(1, specialization);
+        
+        ResultSet set = statement.executeQuery();
+        
+        while(set.next()){
+            Doctor d =  new Doctor();
+            d.setDoctor(set.getInt("doctor_id"));
+            d.setDoctor_name(set.getString("doctor_name"));
+            d.setDoctor_specialization_id(set.getString("doctor_specialization"));
+            to_return.add(d);
+        }
+        
+        return to_return;
     }
     
     //function to get all patients from db

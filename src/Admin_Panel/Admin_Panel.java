@@ -9,11 +9,14 @@ import Add_Patient.*;
 import Add_Doctor.*;
 import Add_Disease.*;
 import java.awt.Font;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -26,7 +29,7 @@ public class Admin_Panel extends javax.swing.JFrame {
     //vars
     private enum curr_display_table {PATIENT_TABLE , DOCTOR_TABLE};
     private  curr_display_table d_table;
-    private enum curr_patient_srh_func {By_id , By_name , By_fname ,By_doctorname ,By_disease, By_dob};
+    private enum curr_patient_srh_func {By_id , By_name , By_fname ,By_doctorname ,By_disease, By_dob , By_Age , By_doc_spec};
     private curr_patient_srh_func Search_function_Patient = curr_patient_srh_func.By_id;
     //end of cars
     
@@ -100,7 +103,6 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
-        jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem17 = new javax.swing.JMenuItem();
@@ -124,8 +126,10 @@ public class Admin_Panel extends javax.swing.JFrame {
         setIconImages(null);
         setLocation(new java.awt.Point(200, 150));
         setLocationByPlatform(true);
-        setMaximumSize(new java.awt.Dimension(859, 618));
-        setMinimumSize(new java.awt.Dimension(859, 618));
+        setMaximumSize(new java.awt.Dimension(1088, 613));
+        setMinimumSize(new java.awt.Dimension(1088, 613));
+        setResizable(false);
+        setType(java.awt.Window.Type.UTILITY);
 
         jTable1.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -154,23 +158,6 @@ public class Admin_Panel extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
-                .addGap(30, 30, 30))
-        );
-
         jButton4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jButton4.setText("Delete Record");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -183,17 +170,39 @@ public class Admin_Panel extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
                 .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
-                .addGap(23, 23, 23))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(144, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                .addGap(30, 30, 30))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
@@ -305,6 +314,11 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenu2.add(jMenuItem11);
 
         jMenuItem8.setText("Patient By Age");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem8);
 
         jMenuItem13.setText("Patient By Disease");
@@ -320,10 +334,12 @@ public class Admin_Panel extends javax.swing.JFrame {
 
         jMenu7.setText("Search Doctor");
 
-        jMenuItem15.setText("Doctor By Name");
-        jMenu7.add(jMenuItem15);
-
         jMenuItem12.setText("Doctor By Specialization");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem12);
 
         jMenu2.add(jMenu7);
@@ -335,6 +351,11 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenu3.setInheritsPopupMenu(true);
 
         jMenuItem17.setText("About Us");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem17);
 
         jMenuItem16.setText("Change Password");
@@ -352,43 +373,34 @@ public class Admin_Panel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(245, 245, 245)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1)
-                        .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1067, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 30, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 14, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -479,8 +491,8 @@ public class Admin_Panel extends javax.swing.JFrame {
     
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         try {
-            // TODO add your handling code here:
-            setUpDisplayTableDoctorTable();
+              d_table = curr_display_table.DOCTOR_TABLE;
+              setUpDisplayTableDoctorTable();
         } catch (SQLException ex) {
             Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -488,6 +500,7 @@ public class Admin_Panel extends javax.swing.JFrame {
     
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         try {
+            d_table = curr_display_table.PATIENT_TABLE;
             // TODO add your handling code here:
             setUpDisplayTablePatientTable();
         } catch (SQLException ex) {
@@ -559,78 +572,149 @@ public class Admin_Panel extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
     
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        // TODO add your handling code here:
-        try {
-            DBA dba = new DBA();
+        
+        if(Search_function_Patient  == curr_patient_srh_func.By_doc_spec){
             
-            //Enable button for deletion , because this is againt our bussines rule
-            jButton4.setEnabled(true);
-            
-            d_table = curr_display_table.PATIENT_TABLE; //Change the functionality of refresh button to update for doctors
-            
-            jLabel1.setText("Patient Records"); //change the label to display doctor records
-            
-            
-            //by default load patients record into jTable
-            DefaultTableModel model =  new DefaultTableModel();  //creating a model for JTable class
-            Object[] columns = {"Id","Name", "Father Name" , "Gender" , "Date of birth" , "Doctor Name"}; //setting up identifiers for jtable class
-            model.setColumnIdentifiers(columns); //Now binding Identifiers with model
-            jTable1.setModel(model);//Now Binding Model with jTable
-            
-            Object test_content = null; //this var will be used to to hold the data to match on the basis of which results will be returned
-            
-            //Grabing content from jTextField
-            test_content = jTextField1.getText();
-            
-            if (!((String)test_content).equals("")){
-                LinkedList<Patient> patients = null;
+            try {
+                DBA dba = new DBA();
                 
+                jButton4.setEnabled(false);//Because deletion of doctors is not allowed according to out bussines rule
+                d_table = curr_display_table.DOCTOR_TABLE; // change the functionaality of refresh to button to update doctors
+                jLabel1.setText("Doctor Records"); //change the label to display doctor records
                 
-                //Now deciding what kinda method to invoke from dba
-                if (Search_function_Patient == curr_patient_srh_func.By_id) {
-                   patients = dba.searchPatient(DBA.SEARCH.BY_ID, test_content);
-                }else if (Search_function_Patient == curr_patient_srh_func.By_name) {
-                   patients = dba.searchPatient(DBA.SEARCH.BY_NAME, test_content); 
-                }else if(Search_function_Patient == curr_patient_srh_func.By_doctorname){
-                   patients = dba.searchPatient(DBA.SEARCH.BY_DOCTOR_NAME, test_content); 
+                //Working on table model
+                DefaultTableModel model =  new DefaultTableModel();
+                Object[]  columns = {"Id" , "Specialization" , "Name"};
+                model.setColumnIdentifiers(columns);
+                jTable1.setModel(model);
+                
+                Object test_content = null; //this var will be used to to hold the data to match on the basis of which results will be returned
+                
+                //Grabing content from jTextField
+                test_content = jTextField1.getText();
+                
+                if (!((String)test_content).equals("")){
+                    
+                    LinkedList<Doctor> doctors = null;
+                    
+                    //get matched doctors according to field of specialization
+                    doctors =  dba.searchDoctorBasedUponSpecialization((String)test_content);
+                    
+                    Object[] row = new Object[3];
+                    for(Doctor d : doctors){
+                        
+                        //Now adding data from each patient to the row
+                        row[0] = d.getDoctor_id();
+                        row[1] = d.getDoctor_specialization();
+                        row[2] = d.getDoctor_name();
+                        //Now add this row to the model
+                        model.addRow(row);
+                        
+                    }
+                    
+                    
+                    
+                }else{
+                    renderSelectedTableToJTable();
                 }
                 
                 
-                Object[] row = new Object[6];
-                for(Patient p : patients){
-                    
-                    //Now adding data from each patient to the row
-                    row[0] =  p.getPatient_id();
-                    row[1] =  p.getPatient_name();
-                    row[2] =  p.getPatient_father_name();
-                    row[3] =  (p.getSex() == true ? "Male":"Female");
-                    row[4] =  p.getDob();
-                    row[5] = p.getDoctor_name();
-                    
-                    //Now add this row to the model
-                    model.addRow(row);
-                    
-                }
-            }else{
-                renderSelectedTableToJTable();
+            } catch (SQLException ex) {
+                Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
+            try {
+                DBA dba = new DBA();
+                
+                //Enable button for deletion , because this is againt our bussines rule
+                jButton4.setEnabled(true);
+                
+                d_table = curr_display_table.PATIENT_TABLE; //Change the functionality of refresh button to update for doctors
+                
+                jLabel1.setText("Patient Records"); //change the label to display patients records
+                
+                
+                //by default load patients record into jTable
+                DefaultTableModel model =  new DefaultTableModel();  //creating a model for JTable class
+                Object[] columns = {"Id","Name", "Father Name" , "Gender" , "Date of birth" , "Doctor Name"}; //setting up identifiers for jtable class
+                model.setColumnIdentifiers(columns); //Now binding Identifiers with model
+                jTable1.setModel(model);//Now Binding Model with jTable
+                
+                Object test_content = null; //this var will be used to to hold the data to match on the basis of which results will be returned
+                
+                //Grabing content from jTextField
+                test_content = jTextField1.getText();
+                
+                if (!((String)test_content).equals("")){
+                    LinkedList<Patient> patients = null;
+                    
+                    
+                    //Now deciding what kinda method to invoke from dba
+                    if (Search_function_Patient == curr_patient_srh_func.By_id) {
+                        patients = dba.searchPatient(DBA.SEARCH.BY_ID, test_content);
+                    }else if (Search_function_Patient == curr_patient_srh_func.By_name) {
+                        patients = dba.searchPatient(DBA.SEARCH.BY_NAME, test_content);
+                    }else if(Search_function_Patient == curr_patient_srh_func.By_doctorname){
+                        patients = dba.searchPatient(DBA.SEARCH.BY_DOCTOR_NAME, test_content);
+                    }else if(Search_function_Patient == curr_patient_srh_func.By_Age){
+                        patients = dba.searchPatient(DBA.SEARCH.BY_DOB , test_content);
+                        
+                        LinkedList<Patient> selected_patients = new LinkedList<>();
+                        
+                        //Now we will only select those patients in the final list whose age is equal to the desired age
+                        
+                        for(Patient  p : patients){
+                            Date dob =  p.getDob();
+                            
+                            System.out.println(Calendar.getInstance().get(Calendar.YEAR) + "  " + dob.getYear());
+                            
+                            if (Calendar.getInstance().get(Calendar.YEAR) -  dob.getYear()  == Integer.parseInt((String) test_content)) {
+                                selected_patients.add(p);
+                            }
+                        }
+                        
+                        patients =  selected_patients;
+                    }
+                    
+                    
+                    Object[] row = new Object[6];
+                    for(Patient p : patients){
+                        
+                        //Now adding data from each patient to the row
+                        row[0] =  p.getPatient_id();
+                        row[1] =  p.getPatient_name();
+                        row[2] =  p.getPatient_father_name();
+                        row[3] =  (p.getSex() == true ? "Male":"Female");
+                        row[4] =  p.getDob();
+                        row[5] = p.getDoctor_name();
+                        
+                        //Now add this row to the model
+                        model.addRow(row);
+                        
+                    }
+                }else{
+                    renderSelectedTableToJTable();
+                }
+                
+                
+                
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+        
     }//GEN-LAST:event_jTextField1KeyReleased
-
+    
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-         //set label to search by id
+        //set label to search by id
         jLabel2.setText("Search by Name :");
         
         //set the search method to Search by id
         Search_function_Patient = curr_patient_srh_func.By_name;
     }//GEN-LAST:event_jMenuItem11ActionPerformed
-
+    
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
         //set label to search by id
         jLabel2.setText("Search by Doctor :");
@@ -638,6 +722,37 @@ public class Admin_Panel extends javax.swing.JFrame {
         //set the search method to Search by id
         Search_function_Patient = curr_patient_srh_func.By_doctorname;
     }//GEN-LAST:event_jMenuItem14ActionPerformed
+    
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        
+        //Search by age
+        //set label to search by id
+        jLabel2.setText("Search by Age :");
+        
+        //set the search method to Search by id
+        Search_function_Patient = curr_patient_srh_func.By_Age;    
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Edhi clinic management system is a small yet powerful clinic management software , which proivdes multiple functions , along with all of the above it also has powerful search Options to quickly get relevant data");
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+    
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // TODO add your handling code here:
+        //set label to search by id
+        jLabel2.setText("Search by Name :");
+        jLabel1.setText("Doctor Records");
+        //set the search method to Search by id
+        Search_function_Patient = curr_patient_srh_func.By_doc_spec;
+        d_table = curr_display_table.PATIENT_TABLE;
+        try {
+            renderSelectedTableToJTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -699,7 +814,6 @@ public class Admin_Panel extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
-    private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem2;
