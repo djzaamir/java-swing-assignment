@@ -20,15 +20,27 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import patient_print_form.*;
 import doctor_print_form.*;
+import Change_Password.*;
 /**
  *
  * @author djzaamir
  */
 public class Admin_Panel extends javax.swing.JFrame {
+
+    public String getUser_pass() {
+        return user_pass;
+    }
+
+    public void setUser_pass(String user_pass) {
+        this.user_pass = user_pass;
+    }
     
     
     
     //vars
+    private boolean isGuest = false;
+    private String user_pass;
+    private int userPk;
     private enum curr_display_table {PATIENT_TABLE , DOCTOR_TABLE};
     private  curr_display_table d_table;
     private enum curr_patient_srh_func {By_id , By_name , By_fname ,By_doctorname ,By_disease, By_dob , By_Age , By_doc_spec};
@@ -36,32 +48,9 @@ public class Admin_Panel extends javax.swing.JFrame {
     //end of cars
     
     
-    
-    
-    private void renderSelectedTableToJTable() throws SQLException {
-        if (d_table == curr_display_table.PATIENT_TABLE) {
-            
-            try {
-                setUpDisplayTablePatientTable();
-            } catch (SQLException ex) {
-                Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }else if(d_table == curr_display_table.DOCTOR_TABLE){
-            
-            setUpDisplayTableDoctorTable();
-            
-        }
-    }
-    
-    /**
-     * Creates new form Admin_Panel
-     * @throws java.sql.SQLException
-     */
     public Admin_Panel() throws SQLException {
         initComponents();
         d_table = curr_display_table.PATIENT_TABLE;
-        
         setUpDisplayTablePatientTable();
     }
     
@@ -93,6 +82,7 @@ public class Admin_Panel extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -106,7 +96,6 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
@@ -176,15 +165,16 @@ public class Admin_Panel extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -263,6 +253,14 @@ public class Admin_Panel extends javax.swing.JFrame {
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jButton5.setText("EXIT");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -355,9 +353,6 @@ public class Admin_Panel extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem8);
 
-        jMenuItem13.setText("Patient By Disease");
-        jMenu2.add(jMenuItem13);
-
         jMenuItem14.setText("Patient By Doctor");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -393,6 +388,11 @@ public class Admin_Panel extends javax.swing.JFrame {
         jMenu3.add(jMenuItem17);
 
         jMenuItem16.setText("Change Password");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem16);
 
         jMenuBar1.add(jMenu3);
@@ -405,7 +405,9 @@ public class Admin_Panel extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -421,14 +423,14 @@ public class Admin_Panel extends javax.swing.JFrame {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 75, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
         );
@@ -445,14 +447,19 @@ public class Admin_Panel extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))))
         );
 
         pack();
@@ -497,6 +504,9 @@ public class Admin_Panel extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if (this.isGuest) {
+            disableAdminPowers();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -505,56 +515,25 @@ public class Admin_Panel extends javax.swing.JFrame {
         //first of all change the jLabel being used for msgs
         jLabel1.setText("Select a Patient to delete"); 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
-    
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
         
-        //check if a row is selected or not
-        int row_to_del = jTable1.getSelectedRow();
-        if (row_to_del != -1) {
-            //Now we need extract primary key out of it
-            int pk_to_del = (int) jTable1.getValueAt(row_to_del, 0);
-            try {
-                //Now we need to open the same new patient form , but with some modificatios
-                //These modifications include , sending the pk of patient to update , and loading data into the form
-                if (new DBA().delPatient(pk_to_del)) {
-                    jLabel1.setText("Successful Deletion");
-                    
-                    //Call the appropriate JTable renderer
-                    renderSelectedTableToJTable();
-                    
-                }else  {
-                    jLabel1.setText("Error in deletion!");
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            
-        }else{
-            jLabel1.setText("Please Select a patient to delete");
-        }
-        
-        
-        
-        
-        
-    }//GEN-LAST:event_jButton4ActionPerformed
-    
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        try {
               d_table = curr_display_table.DOCTOR_TABLE;
-              Search_function_Patient = curr_patient_srh_func.By_doctorname;
-              setUpDisplayTableDoctorTable();
+              Search_function_Patient = curr_patient_srh_func.By_doc_spec;
+              jLabel1.setText("Doctor Records");
+              jLabel2.setText("Search By Specialization");
+        try {
+            setUpDisplayTableDoctorTable();
         } catch (SQLException ex) {
             Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_jMenuItem7ActionPerformed
     
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         try {
             d_table = curr_display_table.PATIENT_TABLE;
             Search_function_Patient = curr_patient_srh_func.By_id;
+            jLabel2.setText("Search by Id");
             // TODO add your handling code here:
             setUpDisplayTablePatientTable();
         } catch (SQLException ex) {
@@ -720,10 +699,10 @@ public class Admin_Panel extends javax.swing.JFrame {
                         
                         for(Patient  p : patients){
                             Date dob =  p.getDob();
-                            
-                            System.out.println(Calendar.getInstance().get(Calendar.YEAR) + "  " + dob.getYear());
-                            
-                            if (Calendar.getInstance().get(Calendar.YEAR) -  dob.getYear()  == Integer.parseInt((String) test_content)) {
+                            Calendar calendar =  Calendar.getInstance();
+                            calendar.setTime(dob);
+                            if (Calendar.getInstance().get(Calendar.YEAR) - calendar.get(Calendar.YEAR)  == tryToParseInt(
+                                    (String) test_content)) {
                                 selected_patients.add(p);
                             }
                         }
@@ -757,6 +736,10 @@ public class Admin_Panel extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        
+        if (this.isGuest) {
+            disableAdminPowers();
         }
         
     }//GEN-LAST:event_jTextField1KeyReleased
@@ -795,11 +778,11 @@ public class Admin_Panel extends javax.swing.JFrame {
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         // TODO add your handling code here:
         //set label to search by id
-        jLabel2.setText("Search by Name :");
+        jLabel2.setText("Search by Specialization :");
         jLabel1.setText("Doctor Records");
         //set the search method to Search by id
         Search_function_Patient = curr_patient_srh_func.By_doc_spec;
-        d_table = curr_display_table.PATIENT_TABLE;
+        d_table = curr_display_table.DOCTOR_TABLE;
         try {
             renderSelectedTableToJTable();
         } catch (SQLException ex) {
@@ -837,6 +820,10 @@ public class Admin_Panel extends javax.swing.JFrame {
         
         //set the search method to Search by id
         Search_function_Patient = curr_patient_srh_func.By_name;
+        
+        if (this.isGuest) {
+            disableAdminPowers();
+        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -882,6 +869,31 @@ public class Admin_Panel extends javax.swing.JFrame {
             jLabel1.setText("Please select a record!");
         }
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+       Change_Password password_manager =  new Change_Password();
+       
+       //Passing pk of user , to update password
+       password_manager.setPk(this.userPk);
+       //passing the password
+       password_manager.setUser_pass(this.user_pass);
+       
+       //display form
+       password_manager.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+       password_manager.setVisible(true);
+       
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -928,6 +940,7 @@ public class Admin_Panel extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
@@ -945,7 +958,6 @@ public class Admin_Panel extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
@@ -965,6 +977,20 @@ public class Admin_Panel extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     
+    public int getUserPk() {
+        return userPk;
+    }
+
+    public void setUserPk(int userPk) {
+        this.userPk = userPk;
+    }
+    public boolean isIsGuest() {
+        return isGuest;
+    }
+
+    public void setIsGuest(boolean isGuest) {
+        this.isGuest = isGuest;
+    }
     
     //function to display records from patients to JTable
     private void setUpDisplayTablePatientTable() throws SQLException {
@@ -1029,4 +1055,55 @@ public class Admin_Panel extends javax.swing.JFrame {
         
     }
     
+    //Main table renderer function
+    private void renderSelectedTableToJTable() throws SQLException {
+        if (d_table == curr_display_table.PATIENT_TABLE) {
+            
+            try {
+                setUpDisplayTablePatientTable();
+            } catch (SQLException ex) {
+                Logger.getLogger(Admin_Panel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }else if(d_table == curr_display_table.DOCTOR_TABLE){
+            
+            setUpDisplayTableDoctorTable();
+            
+        }
+    }
+    
+    
+    //this function will disable certain features on the form , incase of guest entry
+    public void disableAdminPowers(){
+        //Now if the user is guest , then diable certain functionalities
+        if (this.isGuest) {
+            this.setTitle("Guest Panel");
+            jMenu1.setEnabled(false);
+            jMenu7.setEnabled(false);
+            jMenuItem14.setEnabled(false);
+            jButton2.setEnabled(false);
+            jButton9.setEnabled(false);
+            jButton4.setEnabled(false);
+            jButton3.setEnabled(false);
+            
+        }
+    }
+    
+     private int tryToParseInt(String parseInt) {
+       boolean good_to_parse = true;
+        for (int i = 0; i < parseInt.length(); i++) {
+            if (parseInt.charAt(i) >= '0' && parseInt.charAt(i) <= '9') {
+               //do nothing
+            }else{
+                good_to_parse = false;
+                break;
+            }
+        }
+        
+        if (good_to_parse) {
+            return  Integer.parseInt(parseInt);
+        }else{
+            return -1;
+        }
+   }
 }

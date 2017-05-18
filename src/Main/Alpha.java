@@ -167,14 +167,7 @@ public class Alpha extends javax.swing.JFrame {
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-          this.setVisible(false);
-          Admin_Panel panel = null;
-        try {
-            panel = new Admin_Panel();
-        } catch (SQLException ex) {
-            Logger.getLogger(Alpha.class.getName()).log(Level.SEVERE, null, ex);
-        }
-          panel.setVisible(true);
+         
         //make sure that the fields are not empty
          if (!jTextField1.getText().equals("") && !new String(jPasswordField1.getPassword()).equals("")) {
             //Calling the evt handler for button
@@ -215,6 +208,19 @@ public class Alpha extends javax.swing.JFrame {
                 this.setVisible(false); //hide this form
                 
                 Admin_Panel panel = new Admin_Panel(); //create a new Admin panel
+                
+                //if the type is guest , then set the isGuest Param to true
+                if (state.getUserLevel() == 2) {
+                    panel.setIsGuest(true);
+                    panel.disableAdminPowers();
+                }
+                
+                //pass the pk of user
+                panel.setUserPk(state.getUserId());
+                //pass the password as well to managment form , this would be used incase of password change event
+                panel.setUser_pass(password);
+                
+                
                 panel.setVisible(true);
             }else{
                 jLabel5.setText("Invalid Credentials !");

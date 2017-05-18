@@ -200,6 +200,25 @@ public class DBA {
         return state; //this is basically a tuple containing data about the user , like valid or invalid etc
     }
     
+    
+    //funciton to update the password of a user
+    public boolean updatePassword(int pk , String passString) throws SQLException{
+        
+        initDatabaseConnection();
+        
+        String query  = "UPDATE `User` SET `password`=? WHERE `user_id`=?";
+        
+        PreparedStatement statement =  conn.prepareStatement(query);
+         
+        
+        //Inserting data into the statement
+        statement.setString(1, passString);
+        statement.setInt(2, pk);
+        
+        return statement.execute() == false;
+    }
+    
+    
     //function to add a new patietn
     public int addPatient(Patient new_patient) throws SQLException{
         
